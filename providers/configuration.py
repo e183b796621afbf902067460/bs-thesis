@@ -1,4 +1,5 @@
 from web3.providers.rpc import HTTPProvider
+import os
 
 
 class ProviderConfigurator(object):
@@ -19,4 +20,4 @@ class ProviderConfigurator(object):
 
 providerConfigurator = ProviderConfigurator()
 
-providerConfigurator.add_provider(chain='ETH', uri='https://mainnet.infura.io/v3/3c9943304cf64593a4013a87cc5fd3f5')
+providerConfigurator.add_provider(chain='ETH', uri=os.getenv('ETH_HTTP_PROVIDER', ''))
