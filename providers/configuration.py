@@ -1,6 +1,8 @@
 from web3.providers.rpc import HTTPProvider
 import os
 
+from orm.consts.chainName import ChainName
+
 
 class ProviderConfigurator(object):
 
@@ -20,4 +22,5 @@ class ProviderConfigurator(object):
 
 providerConfigurator = ProviderConfigurator()
 
-providerConfigurator.add_provider(chain='ETH', uri=os.getenv('ETH_HTTP_PROVIDER', ''))
+providerConfigurator.add_provider(chain=ChainName.ETH, uri=os.getenv('ETH_HTTP_PROVIDER', ''))
+providerConfigurator.add_provider(chain=ChainName.BSC, uri=os.getenv('BSC_HTTP_PROVIDER', ''))
