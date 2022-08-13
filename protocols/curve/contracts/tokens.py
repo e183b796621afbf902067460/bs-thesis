@@ -1,5 +1,5 @@
 from interfaces.tokens import ERC20TokenContract
 
 
-class CurveTokenContract(ERC20TokenContract):
+class CurveLPTokenContract(ERC20TokenContract):
     pass
