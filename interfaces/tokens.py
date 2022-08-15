@@ -1,7 +1,7 @@
-from contracts import ContractInterface
+from contracts import IContract
 
 
-class ERC20TokenContract(ContractInterface):
+class ERC20TokenContract(IContract):
 
     def allowance(self, account: str, spender: str) -> int:
         return self.contract.functions.allowance(account, spender).call()

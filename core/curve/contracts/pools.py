@@ -1,7 +1,7 @@
-from interfaces.contracts import ContractInterface
+from interfaces.contracts import IContract
 
 
-class CurvePoolContract(ContractInterface):
+class CurvePoolContract(IContract):
 
     def A(self) -> int:
         return self.contract.functions.A().call()

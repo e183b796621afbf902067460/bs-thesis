@@ -1,7 +1,7 @@
-from interfaces.contracts import ContractInterface
+from interfaces.contracts import IContract
 
 
-class UniswapV2PairContract(ContractInterface):
+class UniswapV2PairContract(IContract):
 
     def DOMAIN_SEPARATOR(self) -> str:
         return self.contract.functions.DOMAIN_SEPARATOR().call()

@@ -2,7 +2,7 @@ from abc import ABC
 from web3 import Web3
 
 
-class ContractInterface(ABC):
+class IContract(ABC):
 
     def __init__(
             self,

@@ -1,7 +1,7 @@
-from interfaces.contracts import ContractInterface
+from interfaces.contracts import IContract
 
 
-class UniswapStakingRewardsContract(ContractInterface):
+class UniswapStakingRewardsContract(IContract):
 
     def balanceOf(self, address: str) -> int:
         return self.contract.functions.balanceOf(address).call()

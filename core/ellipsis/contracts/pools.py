@@ -1,4 +1,4 @@
-from protocols.curve.contracts.pools import CurvePoolContract
+from core.curve.contracts.pools import CurvePoolContract
 
 
 class EllipsisPoolContract(CurvePoolContract):
