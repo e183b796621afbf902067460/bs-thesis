@@ -4,7 +4,7 @@ import os
 from orm.consts.chainName import ChainName
 
 
-class ProviderConfigurator(object):
+class ProviderConfigurationFabric(object):
 
     def __init__(self) -> None:
         self._providers: dict = dict()
@@ -20,7 +20,7 @@ class ProviderConfigurator(object):
         return provider
 
 
-providerConfigurator = ProviderConfigurator()
+providerConfigurator = ProviderConfigurationFabric()
 
 providerConfigurator.add_provider(chain=ChainName.ETH, uri=os.getenv('ETH_HTTP_PROVIDER', ''))
 providerConfigurator.add_provider(chain=ChainName.BSC, uri=os.getenv('BSC_HTTP_PROVIDER', ''))
