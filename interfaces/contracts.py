@@ -4,6 +4,8 @@ from web3 import Web3
 
 class IContract(ABC):
 
+    _abi: str = None
+
     def __init__(
             self,
             address: str, abi: str,
