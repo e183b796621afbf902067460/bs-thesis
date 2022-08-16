@@ -17,3 +17,7 @@ class IContract(ABC):
     @property
     def address(self) -> str:
         return self.contract.address
+
+    @property
+    def abi(self) -> str:
+        return self._abi
