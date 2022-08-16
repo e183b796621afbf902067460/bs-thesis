@@ -1,16 +1,28 @@
 from interfaces.contracts import IContract
 
 
-class UniswapStakingRewardsContract(IContract):
+class ConvexBaseRewardPoolContract(IContract):
 
     def balanceOf(self, address: str) -> int:
         return self.contract.functions.balanceOf(address).call()
 
+    def currentRewards(self) -> int:
+        return self.contract.functions.currentRewards().call()
+
+    def duration(self) -> int:
+        return self.contract.functions.duration().call()
+
     def earned(self, address: str) -> int:
         return self.contract.functions.earned(address).call()
 
-    def getRewardForDuration(self) -> int:
-        return self.contract.functions.getRewardForDuration().call()
+    def extraRewards(self, i: int) -> str:
+        return self.contract.functions.extraRewards(i).call()
+
+    def extraRewardsLength(self) -> int:
+        return self.contract.functions.extraRewardsLength().call()
+
+    def historicalRewards(self) -> int:
+        return self.contract.functions.historicalRewards().call()
 
     def lastTimeRewardApplicable(self) -> int:
         return self.contract.functions.lastTimeRewardApplicable().call()
@@ -18,8 +30,23 @@ class UniswapStakingRewardsContract(IContract):
     def lastUpdateTime(self) -> int:
         return self.contract.functions.lastUpdateTime().call()
 
+    def newRewardRatio(self) -> int:
+        return self.contract.functions.newRewardRatio().call()
+
+    def operator(self) -> str:
+        return self.contract.functions.operator().call()
+
     def periodFinish(self) -> int:
-        return self.contract.functions.periodFinish().call()
+        return not self.contract.functions.periodFinish().call()
+
+    def pid(self) -> int:
+        return self.contract.functions.pid().call()
+
+    def queuedRewards(self) -> int:
+        return self.contract.functions.queuedRewards().call()
+
+    def rewardManager(self) -> str:
+        return self.contract.functions.rewardManager().call()
 
     def rewardPerToken(self) -> int:
         return self.contract.functions.rewardPerToken().call()
@@ -30,17 +57,11 @@ class UniswapStakingRewardsContract(IContract):
     def rewardRate(self) -> int:
         return self.contract.functions.rewardRate().call()
 
+    def rewardToken(self) -> str:
+        return self.contract.functions.rewardToken().call()
+
     def rewards(self, address: str) -> int:
         return self.contract.functions.rewards(address).call()
-
-    def rewardsDistribution(self) -> str:
-        return self.contract.functions.rewardsDistribution().call()
-
-    def rewardsDuration(self) -> int:
-        return self.contract.functions.rewardsDuration().call()
-
-    def rewardsToken(self) -> str:
-        return self.contract.functions.rewardsToken().call()
 
     def stakingToken(self) -> str:
         return self.contract.functions.stakingToken().call()
