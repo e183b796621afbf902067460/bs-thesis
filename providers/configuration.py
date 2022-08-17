@@ -24,3 +24,8 @@ providerConfigurator = ProviderConfigurationFabric()
 
 providerConfigurator.add_provider(chain=ChainName.ETH, uri=os.getenv('ETH_HTTP_PROVIDER', ''))
 providerConfigurator.add_provider(chain=ChainName.BSC, uri=os.getenv('BSC_HTTP_PROVIDER', ''))
+providerConfigurator.add_provider(chain=ChainName.AVAX, uri=os.getenv('AVAX_HTTP_PROVIDER', ''))
+providerConfigurator.add_provider(chain=ChainName.ARB, uri=os.getenv('ARB_HTTP_PROVIDER', ''))
+providerConfigurator.add_provider(chain=ChainName.FTM, uri=os.getenv('FTM_HTTP_PROVIDER', ''))
+providerConfigurator.add_provider(chain=ChainName.MATIC, uri=os.getenv('MATIC_HTTP_PROVIDER', ''))
+providerConfigurator.add_provider(chain=ChainName.OPT, uri=os.getenv('OPT_HTTP_PROVIDER', ''))
