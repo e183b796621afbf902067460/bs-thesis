@@ -1,4 +1,4 @@
-from core.curve.contracts.LPToken import CurveLPTokenContract
+from core.protocols.curve.contracts.LPToken import CurveLPTokenContract
 
 
 class EllipsisLPTokenContract(CurveLPTokenContract):

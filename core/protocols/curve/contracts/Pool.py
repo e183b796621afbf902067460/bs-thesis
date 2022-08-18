@@ -1,4 +1,4 @@
-from interfaces.contracts import IContract
+from interfaces.contracts.interface import IContract
 
 
 class CurvePoolContract(IContract):
