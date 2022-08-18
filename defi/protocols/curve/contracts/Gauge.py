@@ -1,4 +1,4 @@
-from interfaces.contracts.interface import IContract
+from head.interfaces.contracts.interface import IContract
 
 
 class CurveGaugeContract(IContract):

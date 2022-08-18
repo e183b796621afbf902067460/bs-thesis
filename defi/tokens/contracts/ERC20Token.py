@@ -1,4 +1,4 @@
-from contracts import IContract
+from head.interfaces.contracts.interface import IContract
 
 
 class ERC20TokenContract(IContract):
