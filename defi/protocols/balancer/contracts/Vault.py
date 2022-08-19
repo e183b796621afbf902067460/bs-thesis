@@ -1,6 +1,6 @@
 from typing import List
 
-from head.interfaces.contracts.interface import IContract
+from head.interfaces.contracts.builder import IContract
 
 
 class BalancerVaultContract(IContract):
