@@ -26,7 +26,7 @@ class UniswapV2PairContract(IContract):
     def factory(self) -> str:
         return self.contract.functions.factory().call()
 
-    def getReserves(self) -> tuple:
+    def getReserves(self) -> list:
         return self.contract.functions.getReserves().call()
 
     def kLast(self) -> int:
