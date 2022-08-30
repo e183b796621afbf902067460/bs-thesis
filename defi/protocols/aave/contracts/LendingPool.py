@@ -20,10 +20,10 @@ class AaveLendingPoolV2Contract(IContract):
     def getAddressesProvider(self) -> str:
         return self.contract.functions.getAddressesProvider().call()
 
-    def getConfiguration(self, asset: str) -> list:
+    def getConfiguration(self, asset: str) -> tuple:
         return self.contract.functions.getConfiguration(asset).call()
 
-    def getReserveData(self, asset: str) -> list:
+    def getReserveData(self, asset: str) -> tuple:
         return self.contract.functions.getReserveData(asset).call()
 
     def getReserveNormalizedIncome(self, asset: str) -> int:
@@ -38,7 +38,7 @@ class AaveLendingPoolV2Contract(IContract):
     def getUserAccountData(self, address: str) -> list:
         return self.contract.functions.getUserAccountData(address).call()
 
-    def getUserConfiguration(self, address: str) -> list:
+    def getUserConfiguration(self, address: str) -> tuple:
         return self.contract.functions.getUserConfiguration(address).call()
 
     def paused(self) -> bool:
