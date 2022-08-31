@@ -100,3 +100,88 @@ class TestCurvePoolContract:
     def test_future_owner(self):
         assert isinstance(self._instance.future_owner(), str)
 
+
+class TestCurveGaugeContract:
+
+    _address = '0xbFcF63294aD7105dEa65aA58F8AE5BE2D9d0952A'
+    _provider = BridgeConfigurator(abstractFabric=providerAbstractFabric, fabricKey='http', productKey=Chains.ETH).produceProduct()
+
+    _instance = CurveGaugeContract()\
+        .setAddress(address=_address)\
+        .setProvider(provider=_provider)\
+        .create()
+
+    def testInstance(self):
+        assert isinstance(self._instance, CurveGaugeContract)
+
+    def testAddress(self):
+        assert self._instance.address == self._address
+
+    def testProvider(self):
+        assert self._instance.provider == self._provider
+
+    def test_integrate_checkpoint(self):
+        assert isinstance(self._instance.integrate_checkpoint(), int)
+
+    def test_minter(self):
+        assert isinstance(self._instance.minter(), str)
+
+    def test_crv_token(self):
+        assert isinstance(self._instance.crv_token(), str)
+
+    def test_lp_token(self):
+        assert isinstance(self._instance.lp_token(), str)
+
+    def test_controller(self):
+        assert isinstance(self._instance.controller(), str)
+
+    def test_voting_escrow(self):
+        assert isinstance(self._instance.voting_escrow(), str)
+
+    def test_balanceOf(self):
+        _address = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.balanceOf(address=_address), int)
+
+    def test_totalSupply(self):
+        assert isinstance(self._instance.totalSupply(), int)
+
+    def test_future_epoch_time(self):
+        assert isinstance(self._instance.future_epoch_time(), int)
+
+    def test_approved_to_deposit(self):
+        _arg0 = '0x0000000000000000000000000000000000000000'
+        _arg1 = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.approved_to_deposit(arg0=_arg0, arg1=_arg1), bool)
+
+    def test_working_balances(self):
+        _arg0 = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.working_balances(arg0=_arg0), int)
+
+    def test_working_supply(self):
+        assert isinstance(self._instance.working_supply(), int)
+
+    def test_period(self):
+        assert isinstance(self._instance.period(), int)
+
+    def test_period_timestamp(self):
+        _arg0 = 0
+        assert isinstance(self._instance.period_timestamp(arg0=_arg0), int)
+
+    def test_integrate_inv_supply(self):
+        _arg0 = 0
+        assert isinstance(self._instance.integrate_inv_supply(arg0=_arg0), int)
+
+    def test_integrate_inv_supply_of(self):
+        _address = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.integrate_inv_supply_of(address=_address), int)
+
+    def test_integrate_checkpoint_of(self):
+        _address = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.integrate_checkpoint_of(address=_address), int)
+
+    def test_integrate_fraction(self):
+        _address = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.integrate_fraction(address=_address), int)
+
+    def test_inflation_rate(self):
+        assert isinstance(self._instance.inflation_rate(), int)
