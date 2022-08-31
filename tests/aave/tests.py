@@ -2,6 +2,7 @@ import pytest
 
 from defi.protocols.aave.contracts.LendingPool import AaveLendingPoolV2Contract
 
+from head.bridge.configurator import BridgeConfigurator
 from head.consts.chains.const import Chains
 from providers.abstracts.fabric import providerAbstractFabric
 
@@ -9,7 +10,7 @@ from providers.abstracts.fabric import providerAbstractFabric
 class TestAaveLendingPoolV2Contract:
 
     _address = '0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9'
-    _provider = providerAbstractFabric.getFabric(fabricType='http').getProduct(chain=Chains.ETH)
+    _provider = BridgeConfigurator(abstractFabric=providerAbstractFabric, fabricKey='http', productKey=Chains.ETH).produceProduct()
 
     _instance = AaveLendingPoolV2Contract()\
         .setAddress(address=_address)\
@@ -41,30 +42,30 @@ class TestAaveLendingPoolV2Contract:
         assert isinstance(self._instance.getAddressesProvider(), str)
 
     def test_getConfiguration(self):
-        _asset = '0xdAC17F958D2ee523a2206206994597C13D831ec7'  # USDT
+        _asset = '0x0000000000000000000000000000000000000000'
         assert isinstance(self._instance.getConfiguration(asset=_asset), tuple)
 
     def test_getReserveData(self):
-        _asset = '0xdAC17F958D2ee523a2206206994597C13D831ec7'  # USDT
+        _asset = '0x0000000000000000000000000000000000000000'
         assert isinstance(self._instance.getReserveData(asset=_asset), tuple)
 
     def test_getReserveNormalizedIncome(self):
-        _asset = '0xdAC17F958D2ee523a2206206994597C13D831ec7'  # USDT
+        _asset = '0x0000000000000000000000000000000000000000'
         assert isinstance(self._instance.getReserveNormalizedIncome(asset=_asset), int)
 
     def test_getReserveNormalizedVariableDebt(self):
-        _asset = '0xdAC17F958D2ee523a2206206994597C13D831ec7'  # USDT
+        _asset = '0x0000000000000000000000000000000000000000'
         assert isinstance(self._instance.getReserveNormalizedVariableDebt(asset=_asset), int)
 
     def test_getReservesList(self):
         assert isinstance(self._instance.getReservesList(), list)
 
     def test_getUserAccountData(self):
-        _address = '0xdAC17F958D2ee523a2206206994597C13D831ec7'  # USDT
+        _address = '0x0000000000000000000000000000000000000000'
         assert isinstance(self._instance.getUserAccountData(address=_address), list)
 
     def test_getUserConfiguration(self):
-        _address = '0xdAC17F958D2ee523a2206206994597C13D831ec7'  # USDT
+        _address = '0x0000000000000000000000000000000000000000'
         assert isinstance(self._instance.getUserConfiguration(address=_address), tuple)
 
     def test_paused(self):
