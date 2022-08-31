@@ -11,7 +11,7 @@ class CurvePoolContract(IContract):
     def get_virtual_price(self) -> int:
         return self.contract.functions.get_virtual_price().call()
 
-    def calc_token_amount(self, amounts: int, deposit: bool) -> int:
+    def calc_token_amount(self, amounts: list, deposit: bool) -> int:
         return self.contract.functions.calc_token_amount(amounts, deposit).call()
 
     def get_dy(self, i: int, j: int, dx: int) -> int:
