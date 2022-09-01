@@ -30,6 +30,9 @@ class TestCurvePoolContract:
     def test_A(self):
         assert isinstance(self._instance.A(), int)
 
+    def test_get_virtual_price(self):
+        assert isinstance(self._instance.get_virtual_price(), int)
+
     def test_calc_token_amount(self):
         _amounts = [1, 2, 3]
         _deposit = True
