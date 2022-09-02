@@ -3,14 +3,13 @@ import pytest
 from defi.protocols.nereus.contracts.LendingPool import NereusLendingPoolContract
 
 from head.bridge.configurator import BridgeConfigurator
-from head.consts.chains.const import Chains
 from providers.abstracts.fabric import providerAbstractFabric
 
 
 class TestNereusLendingPoolContract:
 
     _address = '0xB9257597EDdfA0eCaff04FF216939FBc31AAC026'
-    _provider = BridgeConfigurator(abstractFabric=providerAbstractFabric, fabricKey='http', productKey=Chains.AVAX).produceProduct()
+    _provider = BridgeConfigurator(abstractFabric=providerAbstractFabric, fabricKey='http', productKey='avax').produceProduct()
 
     _instance = NereusLendingPoolContract()\
         .setAddress(address=_address)\

@@ -3,14 +3,13 @@ import pytest
 from defi.protocols.pancakeswap.contracts.PancakePair import PancakePairContract
 
 from head.bridge.configurator import BridgeConfigurator
-from head.consts.chains.const import Chains
 from providers.abstracts.fabric import providerAbstractFabric
 
 
 class TestPancakePairContract:
 
     _address = '0x0eD7e52944161450477ee417DE9Cd3a859b14fD0'
-    _provider = BridgeConfigurator(abstractFabric=providerAbstractFabric, fabricKey='http', productKey=Chains.BSC).produceProduct()
+    _provider = BridgeConfigurator(abstractFabric=providerAbstractFabric, fabricKey='http', productKey='bsc').produceProduct()
 
     _instance = PancakePairContract()\
         .setAddress(address=_address)\

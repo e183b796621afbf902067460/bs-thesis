@@ -3,14 +3,13 @@ import pytest
 from defi.protocols.sturdy.contracts.LendingPool import SturdyLendingPoolContract
 
 from head.bridge.configurator import BridgeConfigurator
-from head.consts.chains.const import Chains
 from providers.abstracts.fabric import providerAbstractFabric
 
 
 class TestSturdyLendingPoolContract:
 
     _address = '0xA422CA380bd70EeF876292839222159E41AAEe17'
-    _provider = BridgeConfigurator(abstractFabric=providerAbstractFabric, fabricKey='http', productKey=Chains.ETH).produceProduct()
+    _provider = BridgeConfigurator(abstractFabric=providerAbstractFabric, fabricKey='http', productKey='eth').produceProduct()
 
     _instance = SturdyLendingPoolContract()\
         .setAddress(address=_address)\

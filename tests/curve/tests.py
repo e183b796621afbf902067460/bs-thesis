@@ -4,14 +4,13 @@ from defi.protocols.curve.contracts.Pool import CurvePoolContract
 from defi.protocols.curve.contracts.Gauge import CurveGaugeContract
 
 from head.bridge.configurator import BridgeConfigurator
-from head.consts.chains.const import Chains
 from providers.abstracts.fabric import providerAbstractFabric
 
 
 class TestCurvePoolContract:
 
     _address = '0xbEbc44782C7dB0a1A60Cb6fe97d0b483032FF1C7'
-    _provider = BridgeConfigurator(abstractFabric=providerAbstractFabric, fabricKey='http', productKey=Chains.ETH).produceProduct()
+    _provider = BridgeConfigurator(abstractFabric=providerAbstractFabric, fabricKey='http', productKey='eth').produceProduct()
 
     _instance = CurvePoolContract()\
         .setAddress(address=_address)\

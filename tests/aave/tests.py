@@ -3,14 +3,13 @@ import pytest
 from defi.protocols.aave.contracts.LendingPool import AaveLendingPoolV2Contract
 
 from head.bridge.configurator import BridgeConfigurator
-from head.consts.chains.const import Chains
 from providers.abstracts.fabric import providerAbstractFabric
 
 
 class TestAaveLendingPoolV2Contract:
 
     _address = '0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9'
-    _provider = BridgeConfigurator(abstractFabric=providerAbstractFabric, fabricKey='http', productKey=Chains.ETH).produceProduct()
+    _provider = BridgeConfigurator(abstractFabric=providerAbstractFabric, fabricKey='http', productKey='eth').produceProduct()
 
     _instance = AaveLendingPoolV2Contract()\
         .setAddress(address=_address)\

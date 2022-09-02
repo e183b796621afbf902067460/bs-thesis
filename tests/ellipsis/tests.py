@@ -3,14 +3,13 @@ import pytest
 from defi.protocols.ellipsis.contracts.Pool import EllipsisPoolContract
 
 from head.bridge.configurator import BridgeConfigurator
-from head.consts.chains.const import Chains
 from providers.abstracts.fabric import providerAbstractFabric
 
 
 class TestEllipsisPoolContract:
 
     _address = '0x160CAed03795365F3A589f10C379FfA7d75d4E76'
-    _provider = BridgeConfigurator(abstractFabric=providerAbstractFabric, fabricKey='http', productKey=Chains.BSC).produceProduct()
+    _provider = BridgeConfigurator(abstractFabric=providerAbstractFabric, fabricKey='http', productKey='bsc').produceProduct()
 
     _instance = EllipsisPoolContract()\
         .setAddress(address=_address)\

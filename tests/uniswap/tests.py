@@ -3,14 +3,13 @@ import pytest
 from defi.protocols.uniswap.contracts.UniswapV2Pair import UniswapV2PairContract
 
 from head.bridge.configurator import BridgeConfigurator
-from head.consts.chains.const import Chains
 from providers.abstracts.fabric import providerAbstractFabric
 
 
 class TestUniswapV2PairContract:
 
     _address = '0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc'
-    _provider = BridgeConfigurator(abstractFabric=providerAbstractFabric, fabricKey='http', productKey=Chains.ETH).produceProduct()
+    _provider = BridgeConfigurator(abstractFabric=providerAbstractFabric, fabricKey='http', productKey='eth').produceProduct()
 
     _instance = UniswapV2PairContract()\
         .setAddress(address=_address)\

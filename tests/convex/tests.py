@@ -4,14 +4,13 @@ from defi.protocols.convex.contracts.BaseRewardPool import ConvexBaseRewardPoolC
 from defi.protocols.convex.contracts.VirtualBalanceRewardPool import ConvexVirtualBalanceRewardPoolContract
 
 from head.bridge.configurator import BridgeConfigurator
-from head.consts.chains.const import Chains
 from providers.abstracts.fabric import providerAbstractFabric
 
 
 class TestConvexBaseRewardPoolContract:
 
     _address = '0x22eE18aca7F3Ee920D01F25dA85840D12d98E8Ca'
-    _provider = BridgeConfigurator(abstractFabric=providerAbstractFabric, fabricKey='http', productKey=Chains.ETH).produceProduct()
+    _provider = BridgeConfigurator(abstractFabric=providerAbstractFabric, fabricKey='http', productKey='eth').produceProduct()
 
     _instance = ConvexBaseRewardPoolContract()\
         .setAddress(address=_address)\
