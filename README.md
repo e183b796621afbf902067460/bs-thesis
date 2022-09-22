@@ -67,7 +67,7 @@ class UniswapV2PairContract(IContract):
 
 ```
 
-The code above is implementation of the Uniswap [USDC-WETH](https://etherscan.io/address/0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc) LP Token. The contract's ABI can be found in the **Contract ABI** [section](https://etherscan.io/address/0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc#code).
+The code above is implementation of the Uniswap [USDC-WETH](https://etherscan.io/address/0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc) LP Token. The contract's ABI can be found in the **Contract ABI** [section](https://etherscan.io/address/0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc#code). To build contract need to set certain __properties__ to call `create()` method correctly.
 
 Example of contract building:
 ```
