@@ -2,7 +2,10 @@
 Depends on: [defi-head-core](https://github.com/e183b796621afbf902067460/defi-head-core) and for tests will be needed [defi-providers-fabric](https://github.com/e183b796621afbf902067460/defi-providers-fabric).
 
 ---
-It's a core framework for interacting with smart contracts. The purpose of the framework is to implement the logic of the certain smart contract. All contracts inherit the [`IContract`](https://github.com/e183b796621afbf902067460/defi-head-core/blob/master/head/interfaces/contracts/builder.py) logic. Let's build our first contract:
+It's a core framework for interacting with smart contracts. The purpose of the framework is to implement the logic of the certain smart contract. All contracts inherit the [`IContract`](https://github.com/e183b796621afbf902067460/defi-head-core/blob/master/head/interfaces/contracts/builder.py) logic. 
+
+# Usage
+Let's build our first contract:
 ```
 from head.interfaces.contracts.builder import IContract
 
