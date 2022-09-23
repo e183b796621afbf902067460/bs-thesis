@@ -5,7 +5,7 @@ Depends on: [defi-head-core](https://github.com/e183b796621afbf902067460/defi-he
 It's a core framework for interacting with smart contracts. The purpose of the framework is to implement the logic of the certain smart contract. All contracts inherit the [`IContract`](https://github.com/e183b796621afbf902067460/defi-head-core/blob/master/head/interfaces/contracts/builder.py) logic.
 
 # Configuration
-To provide needed configuration just need to set environment variables for needed blockchain node in certain [fabric]((https://github.com/e183b796621afbf902067460/defi-providers-fabric/tree/master/providers/fabrics)).
+To provide needed configuration just need to set environment variables for needed blockchain node in certain [fabric](https://github.com/e183b796621afbf902067460/defi-providers-fabric/tree/master/providers/fabrics).
 
 # Usage
 Let's build our first contract:
