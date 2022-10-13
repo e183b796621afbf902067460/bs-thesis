@@ -7,9 +7,11 @@ from setuptools import setup
 # string in below ...
 
 
-def read(fname):
-    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+with open('README.md', 'r') as readme:
+    long_description = readme.read()
 
+with open('requirements.txt') as requirements:
+    required = requirements.read().splitlines()
 
 setup(
     name="defi-contracts-evm",
@@ -18,5 +20,6 @@ setup(
     author_email="606d18446a06fe9738fd@gmail.com",
     url="https://github.com/e183b796621afbf902067460/defi-contracts-evm",
     packages=['defi'],
-    long_description=read('README'),
+    long_description=long_description,
+    install_requires=required,
 )
