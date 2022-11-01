@@ -9,7 +9,7 @@ To provide needed configuration just need to set environment variables for neede
 
 # Usage
 Let's build our first contract:
-```
+```python
 from head.interfaces.contracts.builder import IContract
 
 
@@ -73,7 +73,7 @@ class UniswapV2PairContract(IContract):
 The code above is implementation of the Uniswap [USDC-WETH](https://etherscan.io/address/0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc) LP Token. The contract's ABI can be found in the **Contract ABI** [section](https://etherscan.io/address/0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc#code). To build contract need to set certain __properties__ to call `create()` method correctly.
 
 Example of contract building:
-```
+```python
 from defi.protocols.uniswap.contracts.UniswapV2Pair import UniswapV2PairContract
 
 from head.bridge.configurator import BridgeConfigurator
@@ -94,7 +94,7 @@ instance = UniswapV2PairContract()\
     .create()
 ```
 And finally to call needed methods just do it:
-```
+```python
 t0Address = instance.token0()
 t1Address = instance.token1()
 ```
