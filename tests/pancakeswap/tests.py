@@ -1,7 +1,7 @@
 import pytest
 
 from defi.protocols.pancakeswap.contracts.PancakePair import PancakePairContract
-from defi.protocols.pancakeswap.contracts.MasterChefV2 import MasterChefV2Contract
+from defi.protocols.pancakeswap.contracts.MasterChefV2 import PancakeSwapMasterChefV2Contract
 
 from head.bridge.configurator import BridgeConfigurator
 from providers.abstracts.fabric import providerAbstractFabric
@@ -87,13 +87,13 @@ class TestMasterChefV2Contract:
     _address = '0xa5f8C5Dbd5F286960b9d90548680aE5ebFf07652'
     _provider = BridgeConfigurator(abstractFabric=providerAbstractFabric, fabricKey='http', productKey='bsc').produceProduct()
 
-    _instance = MasterChefV2Contract()\
+    _instance = PancakeSwapMasterChefV2Contract()\
         .setAddress(address=_address)\
         .setProvider(provider=_provider)\
         .create()
 
     def testInstance(self):
-        assert isinstance(self._instance, MasterChefV2Contract)
+        assert isinstance(self._instance, PancakeSwapMasterChefV2Contract)
 
     def testAddress(self):
         assert self._instance.address == self._address

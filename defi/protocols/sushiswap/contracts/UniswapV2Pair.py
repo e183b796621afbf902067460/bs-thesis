@@ -1,5 +1,5 @@
-from defi.protocols.uniswap.contracts.UniswapV2Pair import UniswapV2PairContract
+from defi.protocols.uniswap.contracts.UniswapV2Pair import UniSwapV2PairContract
 
 
-class SushiswapUniswapV2PairContract(UniswapV2PairContract):
+class SushiSwapUniSwapV2PairContract(UniSwapV2PairContract):
     pass
