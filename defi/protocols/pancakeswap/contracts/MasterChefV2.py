@@ -80,5 +80,5 @@ class MasterChefV2Contract(IContract):
     def userInfo(self, pid: int, address: str) -> list:
         return self.contract.functions.userInfo(pid, address).call()
 
-    def whitelist(self, address: str) -> bool:
-        return self.contract.functions.whitelist(address).call()
+    def whiteList(self, address: str) -> bool:
+        return self.contract.functions.whiteList(address).call()
