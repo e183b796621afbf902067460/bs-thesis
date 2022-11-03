@@ -1,6 +1,7 @@
 import pytest
 
 from defi.protocols.ellipsis.contracts.Pool import EllipsisPoolContract
+from defi.protocols.ellipsis.contracts.EllipsisLPStaking import EllipsisLPStakingContract
 
 from head.bridge.configurator import BridgeConfigurator
 from providers.abstracts.fabric import providerAbstractFabric
@@ -100,3 +101,76 @@ class TestEllipsisPoolContract:
 
     def test_future_owner(self):
         assert isinstance(self._instance.future_owner(), str)
+
+
+class TestEllipsisLPStakingContract:
+
+    _address = '0x5B74C99AA2356B4eAa7B85dC486843eDff8Dfdbe'
+    _provider = BridgeConfigurator(abstractFabric=providerAbstractFabric, fabricKey='http', productKey='bsc').produceProduct()
+
+    _instance = EllipsisLPStakingContract()\
+        .setAddress(address=_address)\
+        .setProvider(provider=_provider)\
+        .create()
+
+    def testInstance(self):
+        assert isinstance(self._instance, EllipsisLPStakingContract)
+
+    def testAddress(self):
+        assert self._instance.address == self._address
+
+    def testProvider(self):
+        assert self._instance.provider == self._provider
+
+    def test_blockThirdPartyActions(self):
+        _address = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.blockThirdPartyActions(address=_address), bool)
+
+    def test_claimReceiver(self):
+        _address = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.claimReceiver(address=_address), str)
+
+    def test_claimableReward(self):
+        _address = '0x0000000000000000000000000000000000000000'
+        _tokens = ['0x0000000000000000000000000000000000000000']
+        assert isinstance(self._instance.claimableReward(address=_address, tokens=_tokens), list)
+
+    def test_incentiveVoting(self):
+        assert isinstance(self._instance.incentiveVoting(), str)
+
+    def test_lastFeeClaim(self):
+        _address = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.lastFeeClaim(address=_address), int)
+
+    def test_maxMintableTokens(self):
+        assert isinstance(self._instance.maxMintableTokens(), int)
+
+    def test_mintedTokens(self):
+        assert isinstance(self._instance.mintedTokens(), int)
+
+    def test_poolInfo(self):
+        _address = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.poolInfo(address=_address), list)
+
+    def test_poolLength(self):
+        assert isinstance(self._instance.poolLength(), int)
+
+    def test_registeredTokens(self):
+        _i = 0
+        assert isinstance(self._instance.registeredTokens(i=_i), str)
+
+    def test_rewardToken(self):
+        assert isinstance(self._instance.rewardToken(), str)
+
+    def test_startTime(self):
+        assert isinstance(self._instance.startTime(), int)
+
+    def test_tokenLocker(self):
+        assert isinstance(self._instance.tokenLocker(), str)
+
+    def test_userInfo(self):
+        _address = '0x0000000000000000000000000000000000000000'
+        _token = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.userInfo(address=_address, token=_token), list)
+
+

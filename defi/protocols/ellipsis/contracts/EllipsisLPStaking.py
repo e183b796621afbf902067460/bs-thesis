@@ -11,8 +11,8 @@ class EllipsisLPStakingContract(IContract):
     def claimReceiver(self, address: str) -> str:
         return self.contract.functions.claimReceiver(address).call()
 
-    def claimableReward(self, address: str, token: str) -> int:
-        return self.contract.functions.claimableReward(address, token).call()
+    def claimableReward(self, address: str, tokens: list) -> list:
+        return self.contract.functions.claimableReward(address, tokens).call()
 
     def incentiveVoting(self) -> str:
         return self.contract.functions.incentiveVoting().call()
