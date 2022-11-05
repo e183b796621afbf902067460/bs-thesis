@@ -1,6 +1,7 @@
 import pytest
 
 from defi.protocols.aave.contracts.LendingPool import AaveLendingPoolV2Contract
+from defi.protocols.aave.contracts.IncentivesController import AaveIncentivesControllerV2Contract
 
 from head.bridge.configurator import BridgeConfigurator
 from providers.abstracts.fabric import providerAbstractFabric
@@ -9,7 +10,11 @@ from providers.abstracts.fabric import providerAbstractFabric
 class TestAaveLendingPoolV2Contract:
 
     _address = '0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9'
-    _provider = BridgeConfigurator(abstractFabric=providerAbstractFabric, fabricKey='http', productKey='eth').produceProduct()
+    _provider = BridgeConfigurator(
+        abstractFabric=providerAbstractFabric,
+        fabricKey='http',
+        productKey='eth')\
+        .produceProduct()
 
     _instance = AaveLendingPoolV2Contract()\
         .setAddress(address=_address)\
@@ -69,5 +74,76 @@ class TestAaveLendingPoolV2Contract:
 
     def test_paused(self):
         assert isinstance(self._instance.paused(), bool)
+
+
+class TestAaveIncentivesControllerV2Contract:
+
+    _address = '0xd784927Ff2f95ba542BfC824c8a8a98F3495f6b5'
+    _provider = BridgeConfigurator(
+        abstractFabric=providerAbstractFabric,
+        fabricKey='http',
+        productKey='eth')\
+        .produceProduct()
+
+    _instance = AaveIncentivesControllerV2Contract()\
+        .setAddress(address=_address)\
+        .setProvider(provider=_provider)\
+        .create()
+
+    def testInstance(self):
+        assert isinstance(self._instance, AaveIncentivesControllerV2Contract)
+
+    def testAddress(self):
+        assert self._instance.address == self._address
+
+    def testProvider(self):
+        assert self._instance.provider == self._provider
+
+    def test_DISTRIBUTION_END(self):
+        assert isinstance(self._instance.DISTRIBUTION_END(), int)
+
+    def test_EMISSION_MANAGER(self):
+        assert isinstance(self._instance.EMISSION_MANAGER(), str)
+
+    def test_PRECISION(self):
+        assert isinstance(self._instance.PRECISION(), int)
+
+    def test_REVISION(self):
+        assert isinstance(self._instance.REVISION(), int)
+
+    def test_REWARD_TOKEN(self):
+        assert isinstance(self._instance.REWARD_TOKEN(), str)
+
+    def test_STAKE_TOKEN(self):
+        assert isinstance(self._instance.STAKE_TOKEN(), str)
+
+    def test_assets(self):
+        _asset = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.assets(address=_asset), list)
+
+    def test_getAssetData(self):
+        _asset = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.getAssetData(asset=_asset), list)
+
+    def test_getClaimer(self):
+        _address = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.getClaimer(address=_address), str)
+
+    def test_getDistributionEnd(self):
+        assert isinstance(self._instance.getDistributionEnd(), int)
+
+    def test_getRewardsBalance(self):
+        _address = '0x0000000000000000000000000000000000000000'
+        _assets = ['0x9ff58f4fFB29fA2266Ab25e75e2A8b3503311656']
+        assert isinstance(self._instance.getRewardsBalance(address=_address, assets=_assets), int)
+
+    def test_getUserAssetData(self):
+        _address = '0x0000000000000000000000000000000000000000'
+        _asset = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.getUserAssetData(user=_address, asset=_asset), int)
+
+    def test_getUserUnclaimedRewards(self):
+        _address = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.getUserUnclaimedRewards(user=_address), int)
 
 
