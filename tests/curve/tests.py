@@ -2,6 +2,7 @@ import pytest
 
 from defi.protocols.curve.contracts.Pool import CurvePoolContract
 from defi.protocols.curve.contracts.Gauge import CurveGaugeContract
+from defi.protocols.curve.contracts.LiquidityGauge import CurveLiquidityGauge
 
 from head.bridge.configurator import BridgeConfigurator
 from providers.abstracts.fabric import providerAbstractFabric
@@ -10,7 +11,11 @@ from providers.abstracts.fabric import providerAbstractFabric
 class TestCurvePoolContract:
 
     _address = '0xbEbc44782C7dB0a1A60Cb6fe97d0b483032FF1C7'
-    _provider = BridgeConfigurator(abstractFabric=providerAbstractFabric, fabricKey='http', productKey='eth').produceProduct()
+    _provider = BridgeConfigurator(
+        abstractFabric=providerAbstractFabric,
+        fabricKey='http',
+        productKey='eth')\
+        .produceProduct()
 
     _instance = CurvePoolContract()\
         .setAddress(address=_address)\
@@ -106,7 +111,11 @@ class TestCurvePoolContract:
 class TestCurveGaugeContract:
 
     _address = '0xbFcF63294aD7105dEa65aA58F8AE5BE2D9d0952A'
-    _provider = BridgeConfigurator(abstractFabric=providerAbstractFabric, fabricKey='http', productKey=Chains.ETH).produceProduct()
+    _provider = BridgeConfigurator(
+        abstractFabric=providerAbstractFabric,
+        fabricKey='http',
+        productKey='eth')\
+        .produceProduct()
 
     _instance = CurveGaugeContract()\
         .setAddress(address=_address)\
@@ -187,3 +196,65 @@ class TestCurveGaugeContract:
 
     def test_inflation_rate(self):
         assert isinstance(self._instance.inflation_rate(), int)
+
+
+class TestCurveLiquidityGaugeContract(TestCurveGaugeContract):
+
+    _address = '0xd662908ADA2Ea1916B3318327A97eB18aD588b5d'
+    _provider = BridgeConfigurator(
+        abstractFabric=providerAbstractFabric,
+        fabricKey='http',
+        productKey='eth') \
+        .produceProduct()
+
+    _instance = CurveLiquidityGauge() \
+        .setAddress(address=_address) \
+        .setProvider(provider=_provider) \
+        .create()
+
+    def testInstance(self):
+        assert isinstance(self._instance, CurveLiquidityGauge)
+
+    def test_decimals(self):
+        assert isinstance(self._instance.decimals(), int)
+
+    def test_allowance(self):
+        _owner = '0x0000000000000000000000000000000000000000'
+        _spender = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.allowance(owner=_owner, spender=_spender), int)
+
+    def test_name(self):
+        assert isinstance(self._instance.name(), str)
+
+    def test_symbol(self):
+        assert isinstance(self._instance.symbol(), str)
+
+    def test_reward_contract(self):
+        assert isinstance(self._instance.reward_contract(), str)
+
+    def test_reward_tokens(self):
+        _i = 0
+        assert isinstance(self._instance.reward_tokens(i=_i), str)
+
+    def test_reward_integral(self):
+        _address = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.reward_integral(address=_address), int)
+
+    def test_reward_integral_for(self):
+        _token = '0x0000000000000000000000000000000000000000'
+        _address = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.reward_integral_for(token=_token, address=_address), int)
+
+    def test_admin(self):
+        assert isinstance(self._instance.admin(), str)
+
+    def test_future_admin(self):
+        assert isinstance(self._instance.future_admin(), str)
+
+    def test_is_killed(self):
+        assert isinstance(self._instance.is_killed(), bool)
+
+    def test_claimable_tokens(self):
+        _address = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.claimable_tokens(address=_address), int)
+
