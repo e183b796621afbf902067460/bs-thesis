@@ -1,6 +1,7 @@
 import pytest
 
 from defi.protocols.geist.contracts.LendingPool import GeistLendingPoolContract
+from defi.protocols.geist.contracts.ChefIncentivesController import GeistChiefIncentivesControllerContract
 
 from head.bridge.configurator import BridgeConfigurator
 from providers.abstracts.fabric import providerAbstractFabric
@@ -69,3 +70,80 @@ class TestGeistLendingPoolContract:
 
     def test_paused(self):
         assert isinstance(self._instance.paused(), bool)
+
+
+class TestGeistChiefIncentivesControllerContract:
+
+    _address = '0x297FddC5c33Ef988dd03bd13e162aE084ea1fE57'
+    _provider = BridgeConfigurator(
+        abstractFabric=providerAbstractFabric,
+        fabricKey='http',
+        productKey='ftm')\
+        .produceProduct()
+
+    _instance = GeistChiefIncentivesControllerContract()\
+        .setAddress(address=_address)\
+        .setProvider(provider=_provider)\
+        .create()
+
+    def testInstance(self):
+        assert isinstance(self._instance, GeistChiefIncentivesControllerContract)
+
+    def testAddress(self):
+        assert self._instance.address == self._address
+
+    def testProvider(self):
+        assert self._instance.provider == self._provider
+
+    def test_claimReceiver(self):
+        _address = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.claimReceiver(address=_address), str)
+
+    def test_claimableReward(self):
+        _address = '0x0000000000000000000000000000000000000000'
+        _tokens = ['0x07E6332dD090D287d3489245038daF987955DCFB']
+        assert isinstance(self._instance.claimableReward(address=_address, tokens=_tokens), list)
+
+    def test_emissionSchedule(self):
+        _i = 0
+        assert isinstance(self._instance.emissionSchedule(i=_i), list)
+
+    def test_maxMintableTokens(self):
+        assert isinstance(self._instance.maxMintableTokens(), int)
+
+    def test_mintedTokens(self):
+        assert isinstance(self._instance.mintedTokens(), int)
+
+    def test_owner(self):
+        assert isinstance(self._instance.owner(), str)
+
+    def test_poolConfigurator(self):
+        assert isinstance(self._instance.poolConfigurator(), str)
+
+    def test_poolInfo(self):
+        _address = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.poolInfo(address=_address), list)
+
+    def test_poolLength(self):
+        assert isinstance(self._instance.poolLength(), int)
+
+    def test_registeredTokens(self):
+        _i = 0
+        assert isinstance(self._instance.registeredTokens(i=_i), str)
+
+    def test_rewardMinter(self):
+        assert isinstance(self._instance.rewardMinter(), str)
+
+    def test_rewardsPerSecond(self):
+        assert isinstance(self._instance.rewardsPerSecond(), int)
+
+    def test_startTime(self):
+        assert isinstance(self._instance.startTime(), int)
+
+    def test_totalAllocPoint(self):
+        assert isinstance(self._instance.totalAllocPoint(), int)
+
+    def test_userInfo(self):
+        _address = '0x0000000000000000000000000000000000000000'
+        _token = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.userInfo(address=_address, token=_token), list)
