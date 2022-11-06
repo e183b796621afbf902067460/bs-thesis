@@ -1,6 +1,7 @@
 import pytest
 
 from defi.protocols.nereus.contracts.LendingPool import NereusLendingPoolContract
+from defi.protocols.nereus.contracts.ChefIncentivesController import NereusChiefIncentivesControllerContract
 
 from head.bridge.configurator import BridgeConfigurator
 from providers.abstracts.fabric import providerAbstractFabric
@@ -9,7 +10,11 @@ from providers.abstracts.fabric import providerAbstractFabric
 class TestNereusLendingPoolContract:
 
     _address = '0xB9257597EDdfA0eCaff04FF216939FBc31AAC026'
-    _provider = BridgeConfigurator(abstractFabric=providerAbstractFabric, fabricKey='http', productKey='avax').produceProduct()
+    _provider = BridgeConfigurator(
+        abstractFabric=providerAbstractFabric,
+        fabricKey='http',
+        productKey='avax')\
+        .produceProduct()
 
     _instance = NereusLendingPoolContract()\
         .setAddress(address=_address)\
@@ -73,3 +78,84 @@ class TestNereusLendingPoolContract:
 
     def test_paused(self):
         assert isinstance(self._instance.paused(), bool)
+
+
+class TestNereusChiefIncentivesControllerContract:
+
+    _address = '0xa57a8C5dd29bd9CC605027E62935db2cB5485378'
+    _provider = BridgeConfigurator(
+        abstractFabric=providerAbstractFabric,
+        fabricKey='http',
+        productKey='avax')\
+        .produceProduct()
+
+    _instance = NereusChiefIncentivesControllerContract()\
+        .setAddress(address=_address)\
+        .setProvider(provider=_provider)\
+        .create()
+
+    def testInstance(self):
+        assert isinstance(self._instance, NereusChiefIncentivesControllerContract)
+
+    def testAddress(self):
+        assert self._instance.address == self._address
+
+    def testProvider(self):
+        assert self._instance.provider == self._provider
+
+    def test_claimReceiver(self):
+        _address = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.claimReceiver(address=_address), str)
+
+    def test_claimableReward(self):
+        _address = '0x0000000000000000000000000000000000000000'
+        _tokens = ['0x0000000000000000000000000000000000000000']
+        assert isinstance(self._instance.claimableReward(address=_address, tokens=_tokens), list)
+
+    def test_emissionSchedule(self):
+        _i = 0
+        assert isinstance(self._instance.emissionSchedule(i=_i), list)
+
+    def test_maxMintableTokens(self):
+        assert isinstance(self._instance.maxMintableTokens(), int)
+
+    def test_mintedTokens(self):
+        assert isinstance(self._instance.mintedTokens(), int)
+
+    def test_owner(self):
+        assert isinstance(self._instance.owner(), str)
+
+    def test_poolConfigurator(self):
+        assert isinstance(self._instance.poolConfigurator(), str)
+
+    def test_poolInfo(self):
+        _address = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.poolInfo(address=_address), list)
+
+    def test_poolLength(self):
+        assert isinstance(self._instance.poolLength(), int)
+
+    def test_registeredTokens(self):
+        _i = 0
+        assert isinstance(self._instance.registeredTokens(i=_i), str)
+
+    def test_rewardMinter(self):
+        assert isinstance(self._instance.rewardMinter(), str)
+
+    def test_rewardsPerSecond(self):
+        assert isinstance(self._instance.rewardsPerSecond(), int)
+
+    def test_startTime(self):
+        assert isinstance(self._instance.startTime(), int)
+
+    def test_totalAllocPoint(self):
+        assert isinstance(self._instance.totalAllocPoint(), int)
+
+    def test_userBaseClaimable(self):
+        _address = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.userBaseClaimable(address=_address), int)
+
+    def test_userInfo(self):
+        _address = '0x0000000000000000000000000000000000000000'
+        _token = '0x0000000000000000000000000000000000000000'
+        assert isinstance(self._instance.userInfo(address=_address, token=_token), list)
