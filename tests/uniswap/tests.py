@@ -1,5 +1,3 @@
-import uuid
-
 import pytest
 
 from defi.protocols.uniswap.contracts.UniswapV2Pair import UniSwapV2PairContract
@@ -7,8 +5,6 @@ from defi.protocols.uniswap.contracts.UniswapV3Pool import UniSwapV3PoolContract
 
 from head.bridge.configurator import BridgeConfigurator
 from providers.abstracts.fabric import providerAbstractFabric
-
-import ctypes
 
 
 class TestUniSwapV2PairContract:
