@@ -1,4 +1,4 @@
-# DeFi Contracts EVM
+# DeFi Web3 
 Depends on: [defi-head-core](https://github.com/e183b796621afbf902067460/defi-head-core) and for tests will be needed [defi-providers-fabric](https://github.com/e183b796621afbf902067460/defi-providers-fabric).
 
 ---
