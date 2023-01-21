@@ -1,4 +1,4 @@
-from d3tl.typings.fabric.typing import FabricType
+from d3tl.interfaces.fabric.interface import iFabric
 from d3tl.abstract.fabric import D3AbstractFabric
 
 
@@ -13,7 +13,7 @@ class D3BridgeConfigurator:
     def abstract(self) -> D3AbstractFabric:
         return self._abstract
 
-    def produce_fabric(self) -> FabricType:
+    def produce_fabric(self) -> iFabric:
         return self.abstract.get_fabric(self._fabric_name)
 
     def produce_handler(self) -> object:
