@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 class iFabric(ABC):
 
     def __init__(self) -> None:
-        self._products: dict = dict()
+        self._handlers: dict = dict()
 
     @abstractmethod
     def add_handler(self, *args, **kwargs) -> None:
