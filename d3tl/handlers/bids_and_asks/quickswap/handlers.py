@@ -33,10 +33,10 @@ class QuickSwapV3BidsAndAsksHandler(QuickSwapV3AlgebraPoolContract, UniSwapV3Bid
             start: datetime.datetime, end: datetime.datetime,
             *args, **kwargs
     ):
-        rStart = requests.get(self.api_uri.format(timestamp=int(start.timestamp()))).json()['result']
-        rEnd = requests.get(self.api_uri.format(timestamp=int(end.timestamp()))).json()['result']
-        startBlock = int(rStart)
-        endBlock = int(rEnd)
+        r_start = requests.get(self.api_uri.format(timestamp=int(start.timestamp()))).json()['result']
+        r_end = requests.get(self.api_uri.format(timestamp=int(end.timestamp()))).json()['result']
+        start_block = int(r_start)
+        end_block = int(r_end)
 
         w3 = Web3(self.node)
         w3.middleware_onion.inject(
@@ -44,32 +44,32 @@ class QuickSwapV3BidsAndAsksHandler(QuickSwapV3AlgebraPoolContract, UniSwapV3Bid
             layer=0
         )
 
-        t0Address, t1Address = self.token0(), self.token1()
-        t0 = ERC20TokenContract(address=t0Address, provider=self.provider)
-        t1 = ERC20TokenContract(address=t1Address, provider=self.provider)
+        t0_address, t1_address = self.token0(), self.token1()
+        t0 = ERC20TokenContract(address=t0_address, provider=self.provider)
+        t1 = ERC20TokenContract(address=t1_address, provider=self.provider)
 
-        t0Decimals, t1Decimals = t0.decimals(), t1.decimals()
+        t0_decimals, t1_decimals = t0.decimals(), t1.decimals()
 
-        t0Symbol, t1Symbol = t0.symbol(), t1.symbol()
-        poolSymbol = f'{t0Symbol}/{t1Symbol}' if not is_reverse else f'{t1Symbol}/{t0Symbol}'
+        t0_symbol, t1_symbol = t0.symbol(), t1.symbol()
+        pool_symbol = f'{t0_symbol}/{t1_symbol}' if not is_reverse else f'{t1_symbol}/{t0_symbol}'
 
-        eventSwap, eventCodec, eventABI = self.contract.events.Swap, self.contract.events.Swap.web3.codec, self.contract.events.Swap._get_event_abi()
+        event_swap, event_codec, event_abi = self.contract.events.Swap, self.contract.events.Swap.web3.codec, self.contract.events.Swap._get_event_abi()
 
         overview = list()
-        while startBlock < endBlock:
+        while start_block < end_block:
             events = w3.eth.get_logs(
                 {
-                    'fromBlock': startBlock,
-                    'toBlock': startBlock + self.block_limit,
+                    'fromBlock': start_block,
+                    'toBlock': start_block + self.block_limit,
                     'address': self.contract.address
                 }
             )
-            startBlock += self.block_limit
+            start_block += self.block_limit
             for event in events:
                 try:
                     event_data = get_event_data(
-                        abi_codec=eventCodec,
-                        event_abi=eventABI,
+                        abi_codec=event_codec,
+                        event_abi=event_abi,
                         log_entry=event
                     )
                 except MismatchedABI:
@@ -77,51 +77,51 @@ class QuickSwapV3BidsAndAsksHandler(QuickSwapV3AlgebraPoolContract, UniSwapV3Bid
                 ts = w3.eth.getBlock(event_data['blockNumber']).timestamp
                 if ts > end.timestamp():
                     break
-                sqrtP, liquidity = event_data['args']['price'], event_data['args']['liquidity']
+                sqrt_p, liquidity = event_data['args']['price'], event_data['args']['liquidity']
 
                 bid = 1 / self._get_uni_v3_buy_price(
-                    d0=t0Decimals,
-                    d1=t1Decimals,
+                    d0=t0_decimals,
+                    d1=t1_decimals,
                     liquidity=liquidity,
-                    sqrt=sqrtP
+                    sqrt=sqrt_p
                 ) if is_reverse else self._get_uni_v3_sell_price(
-                    d0=t0Decimals,
-                    d1=t1Decimals,
+                    d0=t0_decimals,
+                    d1=t1_decimals,
                     liquidity=liquidity,
-                    sqrt=sqrtP
+                    sqrt=sqrt_p
                 )
                 ask = 1 / self._get_uni_v3_sell_price(
-                    d0=t0Decimals,
-                    d1=t1Decimals,
+                    d0=t0_decimals,
+                    d1=t1_decimals,
                     liquidity=liquidity,
-                    sqrt=sqrtP
+                    sqrt=sqrt_p
                 ) if is_reverse else self._get_uni_v3_buy_price(
-                    d0=t0Decimals,
-                    d1=t1Decimals,
+                    d0=t0_decimals,
+                    d1=t1_decimals,
                     liquidity=liquidity,
-                    sqrt=sqrtP
+                    sqrt=sqrt_p
                 )
                 price = 1 / self._get_uni_v3_price(
-                    d0=t0Decimals,
-                    d1=t1Decimals,
+                    d0=t0_decimals,
+                    d1=t1_decimals,
                     liquidity=liquidity,
-                    sqrt=sqrtP
+                    sqrt=sqrt_p
                 ) if is_reverse else self._get_uni_v3_price(
-                    d0=t0Decimals,
-                    d1=t1Decimals,
+                    d0=t0_decimals,
+                    d1=t1_decimals,
                     liquidity=liquidity,
-                    sqrt=sqrtP
+                    sqrt=sqrt_p
                 )
                 receipt = w3.eth.get_transaction_receipt(event_data['transactionHash'].hex())
                 overview.append(
                     {
-                        'symbol': poolSymbol,
+                        'symbol': pool_symbol,
                         'bid': bid,
                         'ask': ask,
                         'price': price,
                         'sender': receipt['from'],
-                        'amount0': event_data['args']['amount0'] / 10 ** t0Decimals,
-                        'amount1': event_data['args']['amount1'] / 10 ** t1Decimals,
+                        'amount0': event_data['args']['amount0'] / 10 ** t0_decimals,
+                        'amount1': event_data['args']['amount1'] / 10 ** t1_decimals,
                         'gas_used': receipt['gasUsed'] / 10 ** 18,
                         'effective_gas_price': receipt['effectiveGasPrice'] / 10 ** 18,
                         'tx_hash': event_data['transactionHash'].hex(),
