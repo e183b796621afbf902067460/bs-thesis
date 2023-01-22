@@ -16,5 +16,5 @@ class D3BridgeConfigurator:
     def produce_fabric(self) -> iFabric:
         return self.abstract.get_fabric(self._fabric_name)
 
-    def produce_handler(self) -> object:
+    def produce_handler(self):
         return self.produce_fabric().get_handler(self._handler_name)

@@ -26,4 +26,3 @@ class D3AbstractFabric(ABC):
 d3Abstract: D3AbstractFabric = D3AbstractFabric()
 
 d3Abstract.add_fabric(fabric_name='bids_and_asks', fabric=bidsAndAsksFabric)
-

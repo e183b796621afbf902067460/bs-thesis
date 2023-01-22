@@ -3,7 +3,6 @@ from d3tl.interfaces.handlers.bids_and_asks.interface import iBidsAndAsksHandler
 from d3f1nance.uniswap.UniswapV3Pool import UniSwapV3PoolContract
 from d3f1nance.uniswap.UniswapV2Pair import UniSwapV2PairContract
 from raffaelo.contracts.erc20.contract import ERC20TokenContract
-from raffaelo.typings.providers.typing import ProviderType
 
 import datetime
 import requests
@@ -15,19 +14,18 @@ from web3 import Web3
 from web3.exceptions import MismatchedABI
 
 
-class UniSwapV2BidsAndAsksHandler(iBidsAndAsksHandler, UniSwapV2PairContract):
+class UniSwapV2BidsAndAsksHandler(UniSwapV2PairContract, iBidsAndAsksHandler):
     _FEE = 0.003
 
     def __init__(
             self,
-            address: str, provider: ProviderType,
             uri: str, api_key: str, block_limit: int,
             *args, **kwargs
     ) -> None:
-        super(UniSwapV2PairContract).__init__(address=address, provider=provider)
-        super(iBidsAndAsksHandler).__init__(uri=uri, api_key=api_key, block_limit=block_limit)
+        UniSwapV2PairContract.__init__(self, *args, **kwargs)
+        iBidsAndAsksHandler.__init__(self, uri=uri, api_key=api_key, block_limit=block_limit)
 
-    def getOverview(
+    def get_overview(
             self,
             is_reverse: bool,
             start: datetime.datetime, end: datetime.datetime,
@@ -85,7 +83,7 @@ class UniSwapV2BidsAndAsksHandler(iBidsAndAsksHandler, UniSwapV2PairContract):
                 for transfer in transfers:
                     if transfer['address'] == self.contract.address:
                         amount0 = transfer['args']['amount0In'] / 10 ** t0Decimals if transfer['args']['amount0In'] else transfer['args']['amount0Out'] / 10 ** t0Decimals * -1
-                        amount1 = transfer['args']['amount1In'] / 10 ** t0Decimals if transfer['args']['amount1In'] else transfer['args']['amount1Out'] / 10 ** t0Decimals * -1
+                        amount1 = transfer['args']['amount1In'] / 10 ** t1Decimals if transfer['args']['amount1In'] else transfer['args']['amount1Out'] / 10 ** t1Decimals * -1
                         break
                 if not amount0 or not amount1:
                     continue
@@ -110,17 +108,16 @@ class UniSwapV2BidsAndAsksHandler(iBidsAndAsksHandler, UniSwapV2PairContract):
         return overview
 
 
-class UniSwapV3BidsAndAsksHandler(iBidsAndAsksHandler, UniSwapV3PoolContract):
+class UniSwapV3BidsAndAsksHandler(UniSwapV3PoolContract, iBidsAndAsksHandler):
     _FEE = 0.0005
 
     def __init__(
             self,
-            address: str, provider: ProviderType,
             uri: str, api_key: str, block_limit: int,
             *args, **kwargs
     ) -> None:
-        super(UniSwapV3PoolContract).__init__(address=address, provider=provider)
-        super(iBidsAndAsksHandler).__init__(uri=uri, api_key=api_key, block_limit=block_limit)
+        UniSwapV3PoolContract.__init__(self, *args, **kwargs)
+        iBidsAndAsksHandler.__init__(self, uri=uri, api_key=api_key, block_limit=block_limit)
 
     @staticmethod
     def _get_uni_v3_price(
@@ -146,7 +143,7 @@ class UniSwapV3BidsAndAsksHandler(iBidsAndAsksHandler, UniSwapV3PoolContract):
         a1 = 10 ** d1
         return abs(a1 / 10 ** d1 / ((2 ** 96 / sqrt - 1 / (sqrt / 2 ** 96 - a1 * (1 - self._FEE) / liquidity)) * liquidity) * 10 ** d0)
 
-    def getOverview(
+    def get_overview(
             self,
             is_reverse: bool,
             start: datetime.datetime, end: datetime.datetime,
