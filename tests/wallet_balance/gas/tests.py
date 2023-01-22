@@ -2,34 +2,34 @@ import unittest
 
 import builtins
 
-from d3tl.handlers.wallet_balance.erc20.handlers import ERC20WalletBalanceHandler
+from d3tl.handlers.wallet_balance.gas.handlers import GasWalletBalanceHandler
 from d3tl.abstract.fabric import d3Abstract
 from d3tl.bridge.configurator import D3BridgeConfigurator
 
 from raffaelo.providers.http.provider import HTTPProvider
 
 
-class TestERC20WalletBalanceHandler(unittest.TestCase):
+class TestGasWalletBalanceHandler(unittest.TestCase):
 
-    address = '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270'
+    chain = 'polygon'
 
     provider = HTTPProvider(uri='https://rpc.ankr.com/polygon')
 
     product = D3BridgeConfigurator(
         abstract=d3Abstract,
         fabric_name='wallet_balance',
-        handler_name='erc20'
+        handler_name='gas'
     ).produce_handler()
     handler = product(
-        address=address,
+        chain=chain,
         provider=provider
     )
 
     def testInstance(self):
-        self.assertIsInstance(self.handler, ERC20WalletBalanceHandler)
+        self.assertIsInstance(self.handler, GasWalletBalanceHandler)
 
     def testAddress(self):
-        self.assertEqual(self.handler.contract.address, self.address)
+        self.assertEqual(self.handler.chain, self.chain)
 
     def testProvider(self):
         self.assertEqual(self.handler.provider, self.provider)
