@@ -15,7 +15,7 @@ class TestKyberSwapV2BidsAndAsksHandler(unittest.TestCase):
     address = '0xCaCba79427a10008804aDD4f642275AE76419d6a'
 
     scan_api_url = 'https://api.polygonscan.com/'
-    scan_api_key = '7AP9QZ4JEK87Y1KJI7RU2H3TDJ1V9PGZZ2'
+    scan_api_key = ''
     block_limit = 3000
 
     provider = HTTPProvider(uri='https://rpc.ankr.com/polygon')
