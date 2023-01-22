@@ -3,7 +3,8 @@ from typing import Generic
 from d3tl.interfaces.fabric.interface import iFabric
 from d3tl.typings.handlers.wallet_balance.typing import WalletBalanceHandler
 
-from d3tl.handlers.wallet_balance.erc_20.handlers import ERC20WalletBalanceHandler
+from d3tl.handlers.wallet_balance.erc20.handlers import ERC20WalletBalanceHandler
+from d3tl.handlers.wallet_balance.gas.handlers import GasWalletBalanceHandler
 
 
 class WalletBalanceFabric(iFabric):
@@ -22,4 +23,5 @@ class WalletBalanceFabric(iFabric):
 walletBalanceFabric = WalletBalanceFabric()
 
 walletBalanceFabric.add_handler(token_type='erc20', handler=ERC20WalletBalanceHandler)
+walletBalanceFabric.add_handler(token_type='gas', handler=GasWalletBalanceHandler)
 
