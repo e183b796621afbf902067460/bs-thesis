@@ -6,6 +6,7 @@ from datetime import datetime, timezone, timedelta
 from d3tl.handlers.bids_and_asks.kyberswap.handlers import KyberSwapV2BidsAndAsksHandler
 from d3tl.abstract.fabric import d3Abstract
 from d3tl.bridge.configurator import D3BridgeConfigurator
+from trad3er.root.composite.trader import rootTrad3r
 
 from raffaelo.providers.http.provider import HTTPProvider
 
@@ -16,6 +17,7 @@ class TestKyberSwapV2BidsAndAsksHandler(unittest.TestCase):
 
     scan_api_url = 'https://api.polygonscan.com/'
     scan_api_key = ''
+    gas_symbol = 'MATIC'
     block_limit = 3000
 
     provider = HTTPProvider(uri='https://rpc.ankr.com/polygon')
@@ -30,7 +32,9 @@ class TestKyberSwapV2BidsAndAsksHandler(unittest.TestCase):
         provider=provider,
         uri=scan_api_url,
         api_key=scan_api_key,
-        block_limit=block_limit
+        block_limit=block_limit,
+        gas_symbol=gas_symbol,
+        trader=rootTrad3r
     )
 
     def testInstance(self):

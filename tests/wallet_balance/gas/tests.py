@@ -5,13 +5,14 @@ import builtins
 from d3tl.handlers.wallet_balance.gas.handlers import GasWalletBalanceHandler
 from d3tl.abstract.fabric import d3Abstract
 from d3tl.bridge.configurator import D3BridgeConfigurator
+from trad3er.root.composite.trader import rootTrad3r
 
 from raffaelo.providers.http.provider import HTTPProvider
 
 
 class TestGasWalletBalanceHandler(unittest.TestCase):
 
-    chain = 'polygon'
+    gas_symbol = 'MATIC'
 
     provider = HTTPProvider(uri='https://rpc.ankr.com/polygon')
 
@@ -21,15 +22,16 @@ class TestGasWalletBalanceHandler(unittest.TestCase):
         handler_name='gas'
     ).produce_handler()
     handler = product(
-        chain=chain,
-        provider=provider
+        gas_symbol=gas_symbol,
+        provider=provider,
+        trader=rootTrad3r
     )
 
     def testInstance(self):
         self.assertIsInstance(self.handler, GasWalletBalanceHandler)
 
     def testAddress(self):
-        self.assertEqual(self.handler.chain, self.chain)
+        self.assertEqual(self.handler.gas_symbol, self.gas_symbol)
 
     def testProvider(self):
         self.assertEqual(self.handler.provider, self.provider)

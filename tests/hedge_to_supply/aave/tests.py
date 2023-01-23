@@ -5,6 +5,7 @@ import builtins
 from d3tl.handlers.hedge_to_supply.aave.handlers import AaveV3HedgeToSupplyHandler
 from d3tl.abstract.fabric import d3Abstract
 from d3tl.bridge.configurator import D3BridgeConfigurator
+from trad3er.root.composite.trader import rootTrad3r
 
 from raffaelo.providers.http.provider import HTTPProvider
 
@@ -24,7 +25,8 @@ class TestAaveV3HedgeToSupplyHandler(unittest.TestCase):
     handler = product(
         address=address,
         provider=provider,
-        chain=chain
+        chain=chain,
+        trader=rootTrad3r
     )
 
     def testInstance(self):

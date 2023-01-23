@@ -3,14 +3,24 @@ from typing import final, overload, Dict, Any, Optional
 
 import requests as r
 
+from trad3er.typings.trader.typing import Trad3r
+from trad3er.interfaces.trader.interface import iTrad3r
+
 
 class iBidsAndAsksHandler(ABC):
     _FEE = None
 
-    def __init__(self, uri: str, api_key: str, block_limit: int, *args, **kwargs):
+    def __init__(
+            self,
+            uri: str, api_key: str, block_limit: int,
+            gas_symbol: str,
+            trader: Trad3r,
+            *args, **kwargs):
         self._uri = uri
         self._api_key = api_key
         self._block_limit = block_limit
+        self._trader = trader
+        self._gas_symbol = gas_symbol
 
         self.builder.build(
             key='uri', value=self._uri
@@ -18,6 +28,10 @@ class iBidsAndAsksHandler(ABC):
             key='api_key', value=self._api_key
         ).build(
             key='block_limit', value=self.block_limit
+        ).build(
+            key='trader', value=self.trader
+        ).build(
+            key='gas_symbol', value=self.gas_symbol
         ).connect()
 
     @abstractmethod
@@ -27,6 +41,14 @@ class iBidsAndAsksHandler(ABC):
     @property
     def api_uri(self) -> str:
         return self._uri + 'api?module=block&action=getblocknobytime&timestamp={timestamp}&closest=before&apikey=' + self._api_key
+
+    @property
+    def trader(self):
+        return self._trader
+
+    @property
+    def gas_symbol(self):
+        return self._gas_symbol
 
     @property
     def block_limit(self):
@@ -65,6 +87,12 @@ class iBidsAndAsksHandler(ABC):
                 elif k == 'block_limit':
                     if not isinstance(v, int):
                         raise TypeError('Set valid block limit type')
+                elif k == 'gas_symbol':
+                    if not isinstance(v, str):
+                        raise TypeError('Invalid gas symbol type')
+                elif k == 'trader':
+                    if not isinstance(v, iTrad3r):
+                        raise TypeError('Invalid trader type')
 
             if isinstance(params, dict):
                 for k, v in params.items():

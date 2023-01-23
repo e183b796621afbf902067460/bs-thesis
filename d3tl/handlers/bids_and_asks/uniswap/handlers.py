@@ -4,6 +4,8 @@ from d3f1nance.uniswap.UniswapV3Pool import UniSwapV3PoolContract
 from d3f1nance.uniswap.UniswapV2Pair import UniSwapV2PairContract
 from raffaelo.contracts.erc20.contract import ERC20TokenContract
 
+from trad3er.typings.trader.typing import Trad3r
+
 import datetime
 import requests
 
@@ -20,10 +22,12 @@ class UniSwapV2BidsAndAsksHandler(UniSwapV2PairContract, iBidsAndAsksHandler):
     def __init__(
             self,
             uri: str, api_key: str, block_limit: int,
+            gas_symbol: str,
+            trader: Trad3r,
             *args, **kwargs
     ) -> None:
         UniSwapV2PairContract.__init__(self, *args, **kwargs)
-        iBidsAndAsksHandler.__init__(self, uri=uri, api_key=api_key, block_limit=block_limit)
+        iBidsAndAsksHandler.__init__(self, uri=uri, api_key=api_key, block_limit=block_limit, trader=trader, gas_symbol=gas_symbol)
 
     def get_overview(
             self,
@@ -101,6 +105,8 @@ class UniSwapV2BidsAndAsksHandler(UniSwapV2PairContract, iBidsAndAsksHandler):
                         'amount1': amount1,
                         'gas_used': receipt['gasUsed'],
                         'effective_gas_price': receipt['effectiveGasPrice'] / 10 ** 18,
+                        'gas_symbol': self.gas_symbol,
+                        'gas_price': self.trader.get_price(first=self.gas_symbol),
                         'tx_hash': event_data['transactionHash'].hex(),
                         'time': datetime.datetime.utcfromtimestamp(ts)
                     }
@@ -114,10 +120,12 @@ class UniSwapV3BidsAndAsksHandler(UniSwapV3PoolContract, iBidsAndAsksHandler):
     def __init__(
             self,
             uri: str, api_key: str, block_limit: int,
+            gas_symbol: str,
+            trader: Trad3r,
             *args, **kwargs
     ) -> None:
         UniSwapV3PoolContract.__init__(self, *args, **kwargs)
-        iBidsAndAsksHandler.__init__(self, uri=uri, api_key=api_key, block_limit=block_limit)
+        iBidsAndAsksHandler.__init__(self, uri=uri, api_key=api_key, block_limit=block_limit, trader=trader, gas_symbol=gas_symbol)
 
     @staticmethod
     def _get_uni_v3_price(
@@ -241,6 +249,8 @@ class UniSwapV3BidsAndAsksHandler(UniSwapV3PoolContract, iBidsAndAsksHandler):
                         'amount1': event_data['args']['amount1'] / 10 ** t1_decimals,
                         'gas_used': receipt['gasUsed'] / 10 ** 18,
                         'effective_gas_price': receipt['effectiveGasPrice'] / 10 ** 18,
+                        'gas_symbol': self.gas_symbol,
+                        'gas_price': self.trader.get_price(first=self.gas_symbol),
                         'tx_hash': event_data['transactionHash'].hex(),
                         'time': datetime.datetime.utcfromtimestamp(ts)
                     }

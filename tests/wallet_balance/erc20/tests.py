@@ -5,6 +5,7 @@ import builtins
 from d3tl.handlers.wallet_balance.erc20.handlers import ERC20WalletBalanceHandler
 from d3tl.abstract.fabric import d3Abstract
 from d3tl.bridge.configurator import D3BridgeConfigurator
+from trad3er.root.composite.trader import rootTrad3r
 
 from raffaelo.providers.http.provider import HTTPProvider
 
@@ -22,7 +23,8 @@ class TestERC20WalletBalanceHandler(unittest.TestCase):
     ).produce_handler()
     handler = product(
         address=address,
-        provider=provider
+        provider=provider,
+        trader=rootTrad3r
     )
 
     def testInstance(self):

@@ -2,7 +2,7 @@ import datetime
 import requests
 
 from raffaelo.contracts.erc20.contract import ERC20TokenContract
-
+from trad3er.typings.trader.typing import Trad3r
 from d3f1nance.quickswap.AlgebraPool import QuickSwapV3AlgebraPoolContract
 
 from web3.middleware import geth_poa_middleware
@@ -14,7 +14,8 @@ from d3tl.handlers.bids_and_asks.uniswap.handlers import UniSwapV2BidsAndAsksHan
 
 
 class QuickSwapV2BidsAndAsksHandler(UniSwapV2BidsAndAsksHandler):
-    ...
+    def __init__(self, *args, **kwargs):
+        UniSwapV2BidsAndAsksHandler.__init__(self, *args, **kwargs)
 
 
 class QuickSwapV3BidsAndAsksHandler(QuickSwapV3AlgebraPoolContract, UniSwapV3BidsAndAsksHandler):
@@ -22,10 +23,12 @@ class QuickSwapV3BidsAndAsksHandler(QuickSwapV3AlgebraPoolContract, UniSwapV3Bid
     def __init__(
             self,
             uri: str, api_key: str, block_limit: int,
+            gas_symbol: str,
+            trader: Trad3r,
             *args, **kwargs
     ) -> None:
         QuickSwapV3AlgebraPoolContract.__init__(self, *args, **kwargs)
-        UniSwapV3BidsAndAsksHandler.__init__(self, uri=uri, api_key=api_key, block_limit=block_limit, *args, **kwargs)
+        UniSwapV3BidsAndAsksHandler.__init__(self, uri=uri, api_key=api_key, block_limit=block_limit, trader=trader, gas_symbol=gas_symbol, *args, **kwargs)
 
     def get_overview(
             self,
@@ -123,6 +126,8 @@ class QuickSwapV3BidsAndAsksHandler(QuickSwapV3AlgebraPoolContract, UniSwapV3Bid
                         'amount0': event_data['args']['amount0'] / 10 ** t0_decimals,
                         'amount1': event_data['args']['amount1'] / 10 ** t1_decimals,
                         'gas_used': receipt['gasUsed'] / 10 ** 18,
+                        'gas_symbol': self.gas_symbol,
+                        'gas_price': self.trader.get_price(first=self.gas_symbol),
                         'effective_gas_price': receipt['effectiveGasPrice'] / 10 ** 18,
                         'tx_hash': event_data['transactionHash'].hex(),
                         'time': datetime.datetime.utcfromtimestamp(ts)

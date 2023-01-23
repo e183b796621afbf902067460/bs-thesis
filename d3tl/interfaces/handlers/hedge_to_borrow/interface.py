@@ -1,14 +1,20 @@
 from abc import abstractmethod, ABC
 from typing import final, overload, Dict, Any, Optional
 
+from trad3er.typings.trader.typing import Trad3r
+from trad3er.interfaces.trader.interface import iTrad3r
+
 
 class iHedgeToBorrowHandler(ABC):
 
-    def __init__(self, chain: str, *args, **kwargs):
+    def __init__(self, chain: str, trader: Trad3r, *args, **kwargs):
         self._chain = chain
+        self._trader = trader
 
         self.builder.build(
             key='chain', value=self.chain
+        ).build(
+            key='trader', value=self.trader
         )
 
     @abstractmethod
@@ -18,6 +24,10 @@ class iHedgeToBorrowHandler(ABC):
     @property
     def chain(self):
         return self._chain
+
+    @property
+    def trader(self):
+        return self._trader
 
     class Builder:
 
@@ -44,6 +54,9 @@ class iHedgeToBorrowHandler(ABC):
                 if k == 'chain':
                     if not isinstance(v, str):
                         raise TypeError('Invalid chain type')
+                elif k == 'trader':
+                    if not isinstance(v, iTrad3r):
+                        raise TypeError('Invalid Trader type')
 
             if isinstance(params, dict):
                 for k, v in params.items():
