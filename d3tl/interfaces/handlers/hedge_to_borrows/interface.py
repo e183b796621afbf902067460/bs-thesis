@@ -5,7 +5,7 @@ from trad3r.typings.trader.typing import Trad3r
 from trad3r.interfaces.trader.interface import iTrad3r
 
 
-class iHedgeToBorrowHandler(ABC):
+class iHedgeToBorrowsHandler(ABC):
 
     def __init__(self, chain: str, trader: Trad3r, *args, **kwargs):
         self._chain = chain
@@ -35,11 +35,11 @@ class iHedgeToBorrowHandler(ABC):
             self._options: dict = dict()
 
         @overload
-        def build(self, params: Dict[str, Any]) -> "iHedgeToBorrowHandler.Builder":
+        def build(self, params: Dict[str, Any]) -> "iHedgeToBorrowsHandler.Builder":
             ...
 
         @overload
-        def build(self, key: str, value: Any) -> "iHedgeToBorrowHandler.Builder":
+        def build(self, key: str, value: Any) -> "iHedgeToBorrowsHandler.Builder":
             ...
 
         @final
@@ -48,7 +48,7 @@ class iHedgeToBorrowHandler(ABC):
                 key: Optional[str] = None,
                 value: Optional[str] = None,
                 params: Optional[Dict[str, Any]] = None
-        ) -> "iHedgeToBorrowHandler.Builder":
+        ) -> "iHedgeToBorrowsHandler.Builder":
 
             def validate(k: str, v: Any) -> None:
                 if k == 'chain':

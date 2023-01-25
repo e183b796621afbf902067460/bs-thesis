@@ -1,4 +1,4 @@
-from d3tl.interfaces.handlers.hedge_to_borrow.interface import iHedgeToBorrowHandler
+from d3tl.interfaces.handlers.hedge_to_borrows.interface import iHedgeToBorrowsHandler
 
 from d3f1nance.aave.PoolV3 import AaveLendingPoolV3Contract
 from raffaelo.contracts.erc20.contract import ERC20TokenContract
@@ -8,7 +8,7 @@ from web3 import Web3
 from web3.exceptions import BadFunctionCallOutput
 
 
-class AaveV3HedgeToBorrowHandler(ERC20TokenContract, iHedgeToBorrowHandler):
+class AaveV3HedgeToBorrowsHandler(ERC20TokenContract, iHedgeToBorrowsHandler):
 
     def __init__(
             self,
@@ -16,7 +16,7 @@ class AaveV3HedgeToBorrowHandler(ERC20TokenContract, iHedgeToBorrowHandler):
             *args, **kwargs
     ):
         ERC20TokenContract.__init__(self, *args, **kwargs)
-        iHedgeToBorrowHandler.__init__(self, chain=chain, trader=trader)
+        iHedgeToBorrowsHandler.__init__(self, chain=chain, trader=trader)
 
     _lending_pool_addresses = {
         'polygon': '0x794a61358D6845594F94dc1DB02A252b5b4814aD'

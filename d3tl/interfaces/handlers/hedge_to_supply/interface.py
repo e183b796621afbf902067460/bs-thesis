@@ -1,5 +1,5 @@
-from d3tl.interfaces.handlers.hedge_to_borrow.interface import iHedgeToBorrowHandler
+from d3tl.interfaces.handlers.hedge_to_borrows.interface import iHedgeToBorrowsHandler
 
 
-class iHedgeToSupplyHandler(iHedgeToBorrowHandler):
+class iHedgeToSupplyHandler(iHedgeToBorrowsHandler):
     ...

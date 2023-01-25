@@ -2,7 +2,7 @@ import unittest
 
 import builtins
 
-from d3tl.handlers.hedge_to_borrow.aave.handlers import AaveV3HedgeToBorrowHandler
+from d3tl.handlers.hedge_to_borrows.aave.handlers import AaveV3HedgeToBorrowsHandler
 from d3tl.abstract.fabric import d3Abstract
 from d3tl.bridge.configurator import D3BridgeConfigurator
 from trad3r.root.composite.trader import rootTrad3r
@@ -10,7 +10,7 @@ from trad3r.root.composite.trader import rootTrad3r
 from raffaelo.providers.http.provider import HTTPProvider
 
 
-class TestAaveV3HedgeToBorrowHandler(unittest.TestCase):
+class TestAaveV3HedgeToBorrowsHandler(unittest.TestCase):
 
     address = '0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174'
 
@@ -19,7 +19,7 @@ class TestAaveV3HedgeToBorrowHandler(unittest.TestCase):
 
     product = D3BridgeConfigurator(
         abstract=d3Abstract,
-        fabric_name='hedge_to_borrow',
+        fabric_name='hedge_to_borrows',
         handler_name='aaveV3'
     ).produce_handler()
     handler = product(
@@ -30,7 +30,7 @@ class TestAaveV3HedgeToBorrowHandler(unittest.TestCase):
     )
 
     def testInstance(self):
-        self.assertIsInstance(self.handler, AaveV3HedgeToBorrowHandler)
+        self.assertIsInstance(self.handler, AaveV3HedgeToBorrowsHandler)
 
     def testAddress(self):
         self.assertEqual(self.handler.contract.address, self.address)
