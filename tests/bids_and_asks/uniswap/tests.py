@@ -6,7 +6,7 @@ from datetime import datetime, timezone, timedelta
 from d3tl.handlers.bids_and_asks.uniswap.handlers import UniSwapV2BidsAndAsksHandler, UniSwapV3BidsAndAsksHandler
 from d3tl.abstract.fabric import d3Abstract
 from d3tl.bridge.configurator import D3BridgeConfigurator
-from trad3er.root.composite.trader import rootTrad3r
+from trad3r.root.composite.trader import rootTrad3r
 
 from raffaelo.providers.http.provider import HTTPProvider
 

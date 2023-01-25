@@ -2,7 +2,7 @@ import datetime
 import requests
 
 from raffaelo.contracts.erc20.contract import ERC20TokenContract
-from trad3er.typings.trader.typing import Trad3r
+from trad3r.typings.trader.typing import Trad3r
 from d3f1nance.quickswap.AlgebraPool import QuickSwapV3AlgebraPoolContract
 
 from web3.middleware import geth_poa_middleware

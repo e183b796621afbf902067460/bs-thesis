@@ -1,9 +1,8 @@
 from d3tl.interfaces.handlers.wallet_balance.interface import iWalletBalanceHandler
 from raffaelo.typings.providers.typing import ProviderType
-from trad3er.typings.trader.typing import Trad3r
+from trad3r.typings.trader.typing import Trad3r
 
 from web3 import Web3
-from abc import ABC
 
 
 class GasWalletBalanceHandler(iWalletBalanceHandler):

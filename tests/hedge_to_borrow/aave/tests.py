@@ -5,7 +5,7 @@ import builtins
 from d3tl.handlers.hedge_to_borrow.aave.handlers import AaveV3HedgeToBorrowHandler
 from d3tl.abstract.fabric import d3Abstract
 from d3tl.bridge.configurator import D3BridgeConfigurator
-from trad3er.root.composite.trader import rootTrad3r
+from trad3r.root.composite.trader import rootTrad3r
 
 from raffaelo.providers.http.provider import HTTPProvider
 

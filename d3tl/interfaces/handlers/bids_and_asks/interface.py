@@ -3,8 +3,8 @@ from typing import final, overload, Dict, Any, Optional
 
 import requests as r
 
-from trad3er.typings.trader.typing import Trad3r
-from trad3er.interfaces.trader.interface import iTrad3r
+from trad3r.typings.trader.typing import Trad3r
+from trad3r.interfaces.trader.interface import iTrad3r
 
 
 class iBidsAndAsksHandler(ABC):

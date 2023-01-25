@@ -2,7 +2,7 @@ from d3tl.interfaces.handlers.hedge_to_borrow.interface import iHedgeToBorrowHan
 
 from d3f1nance.aave.PoolV3 import AaveLendingPoolV3Contract
 from raffaelo.contracts.erc20.contract import ERC20TokenContract
-from trad3er.typings.trader.typing import Trad3r
+from trad3r.typings.trader.typing import Trad3r
 
 from web3 import Web3
 from web3.exceptions import BadFunctionCallOutput

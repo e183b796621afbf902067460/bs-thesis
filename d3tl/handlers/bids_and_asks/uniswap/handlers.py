@@ -4,7 +4,7 @@ from d3f1nance.uniswap.UniswapV3Pool import UniSwapV3PoolContract
 from d3f1nance.uniswap.UniswapV2Pair import UniSwapV2PairContract
 from raffaelo.contracts.erc20.contract import ERC20TokenContract
 
-from trad3er.typings.trader.typing import Trad3r
+from trad3r.typings.trader.typing import Trad3r
 
 import datetime
 import requests
