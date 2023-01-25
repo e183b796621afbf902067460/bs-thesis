@@ -2,7 +2,7 @@ import unittest
 
 import builtins
 
-from d3tl.handlers.wallet_balance.erc20.handlers import ERC20WalletBalanceHandler
+from d3tl.handlers.wallet_balances.erc20.handlers import ERC20WalletBalancesHandler
 from d3tl.abstract.fabric import d3Abstract
 from d3tl.bridge.configurator import D3BridgeConfigurator
 from trad3r.root.composite.trader import rootTrad3r
@@ -10,7 +10,7 @@ from trad3r.root.composite.trader import rootTrad3r
 from raffaelo.providers.http.provider import HTTPProvider
 
 
-class TestERC20WalletBalanceHandler(unittest.TestCase):
+class TestERC20WalletBalancesHandler(unittest.TestCase):
 
     address = '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270'
 
@@ -18,7 +18,7 @@ class TestERC20WalletBalanceHandler(unittest.TestCase):
 
     product = D3BridgeConfigurator(
         abstract=d3Abstract,
-        fabric_name='wallet_balance',
+        fabric_name='wallet_balances',
         handler_name='erc20'
     ).produce_handler()
     handler = product(
@@ -28,7 +28,7 @@ class TestERC20WalletBalanceHandler(unittest.TestCase):
     )
 
     def testInstance(self):
-        self.assertIsInstance(self.handler, ERC20WalletBalanceHandler)
+        self.assertIsInstance(self.handler, ERC20WalletBalancesHandler)
 
     def testAddress(self):
         self.assertEqual(self.handler.contract.address, self.address)

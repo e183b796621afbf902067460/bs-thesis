@@ -6,7 +6,7 @@ from d3tl.interfaces.fabric.interface import iFabric
 from d3tl.fabrics.bids_and_asks.fabric import bidsAndAsksFabric
 from d3tl.fabrics.hedge_to_borrows.fabric import hedgeToBorrowsFabric
 from d3tl.fabrics.hedge_to_supplies.fabric import hedgeToSuppliesFabric
-from d3tl.fabrics.wallet_balance.fabric import walletBalanceFabric
+from d3tl.fabrics.wallet_balances.fabric import walletBalancesFabric
 
 
 class D3AbstractFabric(ABC):
@@ -32,4 +32,4 @@ d3Abstract: D3AbstractFabric = D3AbstractFabric()
 d3Abstract.add_fabric(fabric_name='bids_and_asks', fabric=bidsAndAsksFabric)
 d3Abstract.add_fabric(fabric_name='hedge_to_borrows', fabric=hedgeToBorrowsFabric)
 d3Abstract.add_fabric(fabric_name='hedge_to_supplies', fabric=hedgeToSuppliesFabric)
-d3Abstract.add_fabric(fabric_name='wallet_balance', fabric=walletBalanceFabric)
+d3Abstract.add_fabric(fabric_name='wallet_balances', fabric=walletBalancesFabric)

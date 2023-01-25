@@ -1,11 +1,11 @@
-from d3tl.interfaces.handlers.wallet_balance.interface import iWalletBalanceHandler
+from d3tl.interfaces.handlers.wallet_balances.interface import iWalletBalancesHandler
 from raffaelo.typings.providers.typing import ProviderType
 from trad3r.typings.trader.typing import Trad3r
 
 from web3 import Web3
 
 
-class GasWalletBalanceHandler(iWalletBalanceHandler):
+class GasWalletBalancesHandler(iWalletBalancesHandler):
 
     def __init__(
             self,
@@ -14,7 +14,7 @@ class GasWalletBalanceHandler(iWalletBalanceHandler):
     ) -> None:
         self._provider: ProviderType = provider
         self._gas_symbol = gas_symbol
-        iWalletBalanceHandler.__init__(self, trader=trader, *args, **kwargs)
+        iWalletBalancesHandler.__init__(self, trader=trader, *args, **kwargs)
 
     @property
     def provider(self) -> ProviderType:

@@ -2,7 +2,7 @@ import unittest
 
 import builtins
 
-from d3tl.handlers.wallet_balance.gas.handlers import GasWalletBalanceHandler
+from d3tl.handlers.wallet_balances.gas.handlers import GasWalletBalancesHandler
 from d3tl.abstract.fabric import d3Abstract
 from d3tl.bridge.configurator import D3BridgeConfigurator
 from trad3r.root.composite.trader import rootTrad3r
@@ -10,7 +10,7 @@ from trad3r.root.composite.trader import rootTrad3r
 from raffaelo.providers.http.provider import HTTPProvider
 
 
-class TestGasWalletBalanceHandler(unittest.TestCase):
+class TestGasWalletBalancesHandler(unittest.TestCase):
 
     gas_symbol = 'MATIC'
 
@@ -18,7 +18,7 @@ class TestGasWalletBalanceHandler(unittest.TestCase):
 
     product = D3BridgeConfigurator(
         abstract=d3Abstract,
-        fabric_name='wallet_balance',
+        fabric_name='wallet_balances',
         handler_name='gas'
     ).produce_handler()
     handler = product(
@@ -28,7 +28,7 @@ class TestGasWalletBalanceHandler(unittest.TestCase):
     )
 
     def testInstance(self):
-        self.assertIsInstance(self.handler, GasWalletBalanceHandler)
+        self.assertIsInstance(self.handler, GasWalletBalancesHandler)
 
     def testAddress(self):
         self.assertEqual(self.handler.gas_symbol, self.gas_symbol)

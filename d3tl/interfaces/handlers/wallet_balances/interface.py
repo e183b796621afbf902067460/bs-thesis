@@ -5,7 +5,7 @@ from trad3r.typings.trader.typing import Trad3r
 from trad3r.interfaces.trader.interface import iTrad3r
 
 
-class iWalletBalanceHandler(ABC):
+class iWalletBalancesHandler(ABC):
 
     def __init__(self, trader: Trad3r, *args, **kwargs) -> None:
         self._trader = trader
@@ -29,11 +29,11 @@ class iWalletBalanceHandler(ABC):
             self._options: dict = dict()
 
         @overload
-        def build(self, params: Dict[str, Any]) -> "iWalletBalanceHandler.Builder":
+        def build(self, params: Dict[str, Any]) -> "iWalletBalancesHandler.Builder":
             ...
 
         @overload
-        def build(self, key: str, value: Any) -> "iWalletBalanceHandler.Builder":
+        def build(self, key: str, value: Any) -> "iWalletBalancesHandler.Builder":
             ...
 
         @final
@@ -42,7 +42,7 @@ class iWalletBalanceHandler(ABC):
                 key: Optional[str] = None,
                 value: Optional[str] = None,
                 params: Optional[Dict[str, Any]] = None
-        ) -> "iWalletBalanceHandler.Builder":
+        ) -> "iWalletBalancesHandler.Builder":
 
             def validate(k: str, v: Any) -> None:
                 if k == 'trader':
