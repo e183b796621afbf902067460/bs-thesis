@@ -11,7 +11,7 @@ pip install git+https://github.com/e183b796621afbf902067460/d3tl.git#egg=d3tl
 ```
 
 # Usage
-For example, to get [`ERC20WalletBalanceHandler`](https://github.com/e183b796621afbf902067460/d3tl/blob/master/d3tl/handlers/wallet_balance/erc20/handlers.py#L8) need to call [`D3BridgeConfigurator`](https://github.com/e183b796621afbf902067460/d3tl/blob/master/d3tl/bridge/configurator.py#L5) and pass to it constructor next arguments and then call `produce_handler()` method:
+For example, to get [`ERC20WalletBalancesHandler`](https://github.com/e183b796621afbf902067460/d3tl/blob/master/d3tl/handlers/wallet_balances/erc20/handlers.py#L8) need to call [`D3BridgeConfigurator`](https://github.com/e183b796621afbf902067460/d3tl/blob/master/d3tl/bridge/configurator.py#L5) and pass to it constructor next arguments and then call `produce_handler()` method:
 
 ```python
 from d3tl.abstract.fabric import d3Abstract
@@ -24,7 +24,7 @@ provider = HTTPProvider(uri='https://rpc.ankr.com/polygon')
 
 class_ = D3BridgeConfigurator(
     abstract=d3Abstract,
-    fabric_name='wallet_balance',
+    fabric_name='wallet_balances',
     handler_name='erc20'
 ).produce_handler()
 
@@ -35,4 +35,4 @@ handler = class_(
 )
 ```
 
-Current handler is `ERC20WalletBalanceHandler`. After this we can call `get_overview()` method and pass our wallet address in arguments to get the amount of wMATIC ERC20-token balance.
+Current handler is `ERC20WalletBalancesHandler`. After this we can call `get_overview()` method and pass our wallet address in arguments to get the amount of wMATIC ERC20-token balance.
