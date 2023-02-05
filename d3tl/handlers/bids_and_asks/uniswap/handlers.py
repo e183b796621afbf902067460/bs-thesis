@@ -107,6 +107,7 @@ class UniSwapV2BidsAndAsksHandler(UniSwapV2PairContract, iBidsAndAsksHandler):
                         'effective_gas_price': receipt['effectiveGasPrice'] / 10 ** 18,
                         'gas_symbol': self.gas_symbol,
                         'gas_price': self.trader.get_price(first=self.gas_symbol),
+                        'index_position_in_the_block': receipt['transactionIndex'],
                         'tx_hash': event_data['transactionHash'].hex(),
                         'time': datetime.datetime.utcfromtimestamp(ts)
                     }
@@ -115,7 +116,7 @@ class UniSwapV2BidsAndAsksHandler(UniSwapV2PairContract, iBidsAndAsksHandler):
 
 
 class UniSwapV3BidsAndAsksHandler(UniSwapV3PoolContract, iBidsAndAsksHandler):
-    _FEE = 0.0005
+    _FEE = None
 
     def __init__(
             self,
@@ -168,6 +169,7 @@ class UniSwapV3BidsAndAsksHandler(UniSwapV3PoolContract, iBidsAndAsksHandler):
             geth_poa_middleware,
             layer=0
         )
+        self._FEE = self.fee() / 10 ** 5
 
         t0_address, t1_address = self.token0(), self.token1()
         t0 = ERC20TokenContract(address=t0_address, provider=self.provider)
@@ -251,6 +253,7 @@ class UniSwapV3BidsAndAsksHandler(UniSwapV3PoolContract, iBidsAndAsksHandler):
                         'effective_gas_price': receipt['effectiveGasPrice'] / 10 ** 18,
                         'gas_symbol': self.gas_symbol,
                         'gas_price': self.trader.get_price(first=self.gas_symbol),
+                        'index_position_in_the_block': receipt['transactionIndex'],
                         'tx_hash': event_data['transactionHash'].hex(),
                         'time': datetime.datetime.utcfromtimestamp(ts)
                     }

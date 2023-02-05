@@ -19,6 +19,7 @@ class QuickSwapV2BidsAndAsksHandler(UniSwapV2BidsAndAsksHandler):
 
 
 class QuickSwapV3BidsAndAsksHandler(QuickSwapV3AlgebraPoolContract, UniSwapV3BidsAndAsksHandler):
+    _FEE = None
 
     def __init__(
             self,
@@ -82,6 +83,14 @@ class QuickSwapV3BidsAndAsksHandler(QuickSwapV3AlgebraPoolContract, UniSwapV3Bid
                     break
                 sqrt_p, liquidity = event_data['args']['price'], event_data['args']['liquidity']
 
+                receipt = w3.eth.get_transaction_receipt(event_data['transactionHash'].hex())
+                for log in receipt['logs']:
+                    if log['topics'][0].hex() == '0x598b9f043c813aa6be3426ca60d1c65d17256312890be5118dab55b0775ebe2a':
+                        self._FEE = int(log['data'], 16) / 10 ** 5
+                        break
+                else:
+                    continue
+
                 bid = 1 / self._get_uni_v3_buy_price(
                     d0=t0_decimals,
                     d1=t1_decimals,
@@ -115,7 +124,6 @@ class QuickSwapV3BidsAndAsksHandler(QuickSwapV3AlgebraPoolContract, UniSwapV3Bid
                     liquidity=liquidity,
                     sqrt=sqrt_p
                 )
-                receipt = w3.eth.get_transaction_receipt(event_data['transactionHash'].hex())
                 overview.append(
                     {
                         'symbol': pool_symbol,
@@ -129,6 +137,7 @@ class QuickSwapV3BidsAndAsksHandler(QuickSwapV3AlgebraPoolContract, UniSwapV3Bid
                         'gas_symbol': self.gas_symbol,
                         'gas_price': self.trader.get_price(first=self.gas_symbol),
                         'effective_gas_price': receipt['effectiveGasPrice'] / 10 ** 18,
+                        'index_position_in_the_block': receipt['transactionIndex'],
                         'tx_hash': event_data['transactionHash'].hex(),
                         'time': datetime.datetime.utcfromtimestamp(ts)
                     }
