@@ -20,9 +20,9 @@ class ERC20WalletBalancesHandler(ERC20TokenContract, iWalletBalancesHandler):
 
         balance: float = self.balanceOf(address=address) / 10 ** decimals
         overview.append({
-            'pit_symbol': symbol,
-            'pit_price': self.trader.get_price(first=symbol),
-            'pit_qty': balance
+            'symbol': symbol,
+            'price': self.trader.get_price(first=symbol),
+            'qty': balance
         })
         return overview
 

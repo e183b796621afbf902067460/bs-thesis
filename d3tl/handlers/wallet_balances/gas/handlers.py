@@ -34,9 +34,9 @@ class GasWalletBalancesHandler(iWalletBalancesHandler):
 
         balance: float = Web3(self.node).eth.get_balance(address) / 10 ** 18
         overview.append({
-            'pit_symbol': self.gas_symbol,
-            'pit_price': self.trader.get_price(first=self.gas_symbol),
-            'pit_qty': balance
+            'symbol': self.gas_symbol,
+            'price': self.trader.get_price(first=self.gas_symbol),
+            'qty': balance
         })
         return overview
 

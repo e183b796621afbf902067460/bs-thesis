@@ -50,9 +50,9 @@ class AaveV3HedgeToSuppliesHandler(ERC20TokenContract, iHedgeToSuppliesHandler):
                 collateral: int = a_token.balanceOf(address=address) / 10 ** a_token_decimals
 
                 a_overview: dict = {
-                    'pit_symbol': reserve_token_symbol,
-                    'pit_price': self.trader.get_price(first=reserve_token_symbol),
-                    'pit_qty': collateral
+                    'symbol': reserve_token_symbol,
+                    'price': self.trader.get_price(first=reserve_token_symbol),
+                    'qty': collateral
                 }
                 overview.append(a_overview)
         return overview

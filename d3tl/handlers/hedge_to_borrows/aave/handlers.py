@@ -58,10 +58,10 @@ class AaveV3HedgeToBorrowsHandler(ERC20TokenContract, iHedgeToBorrowsHandler):
                 debt = stable_token.balanceOf(address=address) / 10 ** stable_token_decimals + debt_token.balanceOf(address=address) / 10 ** debt_token_decimals
 
                 a_overview: dict = {
-                    'pit_symbol': reserve_token_symbol,
-                    'pit_price': self.trader.get_price(first=reserve_token_symbol),
-                    'pit_qty': debt,
-                    'pit_health_factor': health_factor
+                    'symbol': reserve_token_symbol,
+                    'price': self.trader.get_price(first=reserve_token_symbol),
+                    'qty': debt,
+                    'health_factor': health_factor
                 }
                 overview.append(a_overview)
         return overview
