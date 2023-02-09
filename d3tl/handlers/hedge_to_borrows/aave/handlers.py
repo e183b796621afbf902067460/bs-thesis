@@ -28,6 +28,11 @@ class AaveV3HedgeToBorrowsHandler(ERC20TokenContract, iHedgeToBorrowsHandler):
 
         pool = AaveLendingPoolV3Contract(address=self._lending_pool_addresses[self.chain], provider=self.provider)
 
+        user_account_data = pool.getUserAccountData(address=address)
+        health_factor = user_account_data[5] / 10 ** 18
+        reserve_token_symbol: str = self.symbol()
+        reserve_token_price: float = self.trader.get_price(first=reserve_token_symbol)
+
         user_configuration: str = bin(pool.getUserConfiguration(address=address)[0])[2:]
         reserves_list: list = pool.getReservesList()
         for i, mask in enumerate(user_configuration[::-1]):
@@ -39,13 +44,6 @@ class AaveV3HedgeToBorrowsHandler(ERC20TokenContract, iHedgeToBorrowsHandler):
             except BadFunctionCallOutput:
                 continue
             if mask == '1' and not i % 2:
-                try:
-                    reserve_token_symbol: str = self.symbol()
-                except OverflowError:
-                    continue
-                user_account_data = pool.getUserAccountData(address=address)
-                health_factor = user_account_data[5] / 10 ** 18
-
                 stable_token_address: str = reserve_data[9]
                 debt_token_address: str = reserve_data[10]
 
@@ -59,9 +57,18 @@ class AaveV3HedgeToBorrowsHandler(ERC20TokenContract, iHedgeToBorrowsHandler):
 
                 a_overview: dict = {
                     'symbol': reserve_token_symbol,
-                    'price': self.trader.get_price(first=reserve_token_symbol),
+                    'price': reserve_token_price,
                     'qty': debt,
                     'health_factor': health_factor
                 }
                 overview.append(a_overview)
+        if not overview:
+            overview.append(
+                {
+                    'symbol': reserve_token_symbol,
+                    'price': reserve_token_price,
+                    'qty': 0,
+                    'health_factor': health_factor
+                }
+            )
         return overview

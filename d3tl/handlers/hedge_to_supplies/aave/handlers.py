@@ -28,6 +28,9 @@ class AaveV3HedgeToSuppliesHandler(ERC20TokenContract, iHedgeToSuppliesHandler):
 
         pool = AaveLendingPoolV3Contract(address=self._lending_pool_addresses[self.chain], provider=self.provider)
 
+        reserve_token_symbol: str = self.symbol()
+        reserve_token_price: float = self.trader.get_price(first=reserve_token_symbol)
+
         user_configuration: str = bin(pool.getUserConfiguration(address=address)[0])[2:]
         reserves_list: list = pool.getReservesList()
         for i, mask in enumerate(user_configuration[::-1]):
@@ -39,11 +42,6 @@ class AaveV3HedgeToSuppliesHandler(ERC20TokenContract, iHedgeToSuppliesHandler):
             except BadFunctionCallOutput:
                 continue
             if mask == '1' and i % 2:
-                try:
-                    reserve_token_symbol: str = self.symbol()
-                except OverflowError:
-                    continue
-
                 a_token_address: str = reserve_data[8]
                 a_token: ERC20TokenContract = ERC20TokenContract(address=a_token_address, provider=self.provider)
                 a_token_decimals: int = a_token.decimals()
@@ -51,8 +49,16 @@ class AaveV3HedgeToSuppliesHandler(ERC20TokenContract, iHedgeToSuppliesHandler):
 
                 a_overview: dict = {
                     'symbol': reserve_token_symbol,
-                    'price': self.trader.get_price(first=reserve_token_symbol),
+                    'price': reserve_token_price,
                     'qty': collateral
                 }
                 overview.append(a_overview)
+        if not overview:
+            overview.append(
+                {
+                    'symbol': reserve_token_symbol,
+                    'price': reserve_token_price,
+                    'qty': 0
+                }
+            )
         return overview
