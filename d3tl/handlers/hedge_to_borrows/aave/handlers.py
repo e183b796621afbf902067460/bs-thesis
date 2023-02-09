@@ -67,7 +67,7 @@ class AaveV3HedgeToBorrowsHandler(ERC20TokenContract, iHedgeToBorrowsHandler):
                 {
                     'symbol': reserve_token_symbol,
                     'price': reserve_token_price,
-                    'qty': 0,
+                    'qty': None,
                     'health_factor': health_factor
                 }
             )

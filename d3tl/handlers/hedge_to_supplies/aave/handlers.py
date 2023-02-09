@@ -58,7 +58,7 @@ class AaveV3HedgeToSuppliesHandler(ERC20TokenContract, iHedgeToSuppliesHandler):
                 {
                     'symbol': reserve_token_symbol,
                     'price': reserve_token_price,
-                    'qty': 0
+                    'qty': None
                 }
             )
         return overview
