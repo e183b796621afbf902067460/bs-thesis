@@ -3,7 +3,9 @@ from typing import Generic
 from d3tl.interfaces.fabric.interface import iFabric
 from d3tl.typings.handlers.bids_and_asks.typing import BidsAndAsksHandler
 
-from d3tl.handlers.bids_and_asks.uniswap.handlers import UniSwapV2BidsAndAsksHandler, UniSwapV3BidsAndAsksHandler
+from d3tl.handlers.bids_and_asks.uniswap.handlers import (
+    UniSwapV2BidsAndAsksHandler, UniSwapV3BidsAndAsksHandler, UniSwapV3BidsAndAsksOptimismHandler
+)
 from d3tl.handlers.bids_and_asks.quickswap.handlers import QuickSwapV2BidsAndAsksHandler, QuickSwapV3BidsAndAsksHandler
 from d3tl.handlers.bids_and_asks.kyberswap.handlers import KyberSwapV2BidsAndAsksHandler
 
@@ -25,6 +27,7 @@ bidsAndAsksFabric = BidsAndAsksFabric()
 
 bidsAndAsksFabric.add_handler(protocol='uniswapV2', handler=UniSwapV2BidsAndAsksHandler)
 bidsAndAsksFabric.add_handler(protocol='uniswapV3', handler=UniSwapV3BidsAndAsksHandler)
+bidsAndAsksFabric.add_handler(protocol='uniswapV3-optimism', handler=UniSwapV3BidsAndAsksOptimismHandler)
 bidsAndAsksFabric.add_handler(protocol='quickswapV2', handler=QuickSwapV2BidsAndAsksHandler)
 bidsAndAsksFabric.add_handler(protocol='quickswapV3', handler=QuickSwapV3BidsAndAsksHandler)
 bidsAndAsksFabric.add_handler(protocol='kyberswapV2', handler=KyberSwapV2BidsAndAsksHandler)
