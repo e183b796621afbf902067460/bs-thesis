@@ -22,12 +22,12 @@ class UniSwapV2BidsAndAsksHandler(UniSwapV2PairContract, iBidsAndAsksHandler):
     def __init__(
             self,
             uri: str, api_key: str, block_limit: int,
-            gas_symbol: str,
+            gas_symbol: str, chain: str,
             trader: Trad3r,
             *args, **kwargs
     ) -> None:
         UniSwapV2PairContract.__init__(self, *args, **kwargs)
-        iBidsAndAsksHandler.__init__(self, uri=uri, api_key=api_key, block_limit=block_limit, trader=trader, gas_symbol=gas_symbol)
+        iBidsAndAsksHandler.__init__(self, uri=uri, api_key=api_key, block_limit=block_limit, trader=trader, gas_symbol=gas_symbol, chain=chain)
 
     def get_overview(
             self,
@@ -93,7 +93,7 @@ class UniSwapV2BidsAndAsksHandler(UniSwapV2PairContract, iBidsAndAsksHandler):
                     continue
                 price = r0 / r1 if is_reverse else r1 / r0
                 bid = r0 / r1 * (1 - self._FEE) if is_reverse else r1 / r0 * (1 - self._FEE)
-                ask = r0 / r1 * (1 + self._FEE) if is_reverse else r1 / r0 * (1 - self._FEE)
+                ask = r0 / r1 * (1 + self._FEE) if is_reverse else r1 / r0 * (1 + self._FEE)
                 overview.append(
                     {
                         'symbol': pool_symbol,
@@ -121,12 +121,12 @@ class UniSwapV3BidsAndAsksHandler(UniSwapV3PoolContract, iBidsAndAsksHandler):
     def __init__(
             self,
             uri: str, api_key: str, block_limit: int,
-            gas_symbol: str,
+            gas_symbol: str, chain: str,
             trader: Trad3r,
             *args, **kwargs
     ) -> None:
         UniSwapV3PoolContract.__init__(self, *args, **kwargs)
-        iBidsAndAsksHandler.__init__(self, uri=uri, api_key=api_key, block_limit=block_limit, trader=trader, gas_symbol=gas_symbol)
+        iBidsAndAsksHandler.__init__(self, uri=uri, api_key=api_key, block_limit=block_limit, trader=trader, gas_symbol=gas_symbol, chain=chain)
 
     @staticmethod
     def _get_uni_v3_price(

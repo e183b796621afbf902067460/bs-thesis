@@ -24,12 +24,12 @@ class QuickSwapV3BidsAndAsksHandler(QuickSwapV3AlgebraPoolContract, UniSwapV3Bid
     def __init__(
             self,
             uri: str, api_key: str, block_limit: int,
-            gas_symbol: str,
+            gas_symbol: str, chain: str,
             trader: Trad3r,
             *args, **kwargs
     ) -> None:
         QuickSwapV3AlgebraPoolContract.__init__(self, *args, **kwargs)
-        UniSwapV3BidsAndAsksHandler.__init__(self, uri=uri, api_key=api_key, block_limit=block_limit, trader=trader, gas_symbol=gas_symbol, *args, **kwargs)
+        UniSwapV3BidsAndAsksHandler.__init__(self, uri=uri, api_key=api_key, block_limit=block_limit, trader=trader, gas_symbol=gas_symbol, chain=chain, *args, **kwargs)
 
     def get_overview(
             self,

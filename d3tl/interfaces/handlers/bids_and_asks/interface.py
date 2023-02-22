@@ -13,7 +13,7 @@ class iBidsAndAsksHandler(ABC):
     def __init__(
             self,
             uri: str, api_key: str, block_limit: int,
-            gas_symbol: str,
+            gas_symbol: str, chain: str,
             trader: Trad3r,
             *args, **kwargs):
         self._uri = uri
@@ -21,6 +21,7 @@ class iBidsAndAsksHandler(ABC):
         self._block_limit = block_limit
         self._trader = trader
         self._gas_symbol = gas_symbol
+        self._chain = chain
 
         self.builder.build(
             key='uri', value=self._uri
@@ -32,6 +33,8 @@ class iBidsAndAsksHandler(ABC):
             key='trader', value=self.trader
         ).build(
             key='gas_symbol', value=self.gas_symbol
+        ).build(
+            key='chain', value=self._chain
         ).connect()
 
     @abstractmethod
@@ -53,6 +56,10 @@ class iBidsAndAsksHandler(ABC):
     @property
     def block_limit(self):
         return self._block_limit
+
+    @property
+    def chain(self):
+        return self._chain
 
     class Builder:
 
@@ -93,6 +100,9 @@ class iBidsAndAsksHandler(ABC):
                 elif k == 'trader':
                     if not isinstance(v, iTrad3r):
                         raise TypeError('Invalid trader type')
+                elif k == 'chain':
+                    if not isinstance(v, str):
+                        raise TypeError('Invalid chain type')
 
             if isinstance(params, dict):
                 for k, v in params.items():
