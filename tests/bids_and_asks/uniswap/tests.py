@@ -76,7 +76,7 @@ class TestUniSwapV3BidsAndAsksOptimismHandler(unittest.TestCase):
     product = D3BridgeConfigurator(
         abstract=d3Abstract,
         fabric_name='bids_and_asks',
-        handler_name='uniswapV3-optimism'
+        handler_name='uniswapV3_opt'
     ).produce_handler()
     handler = product(
         address=address,

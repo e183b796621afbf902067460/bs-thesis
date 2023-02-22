@@ -28,7 +28,7 @@ bidsAndAsksFabric = BidsAndAsksFabric()
 
 bidsAndAsksFabric.add_handler(protocol='uniswapV2', handler=UniSwapV2BidsAndAsksHandler)
 bidsAndAsksFabric.add_handler(protocol='uniswapV3', handler=UniSwapV3BidsAndAsksHandler)
-bidsAndAsksFabric.add_handler(protocol='uniswapV3-opt', handler=UniSwapV3BidsAndAsksOptimismHandler)
+bidsAndAsksFabric.add_handler(protocol='uniswapV3_opt', handler=UniSwapV3BidsAndAsksOptimismHandler)
 bidsAndAsksFabric.add_handler(protocol='quickswapV2', handler=QuickSwapV2BidsAndAsksHandler)
 bidsAndAsksFabric.add_handler(protocol='quickswapV3', handler=QuickSwapV3BidsAndAsksHandler)
 bidsAndAsksFabric.add_handler(protocol='kyberswapV2', handler=KyberSwapV2BidsAndAsksHandler)
