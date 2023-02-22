@@ -3,7 +3,9 @@ import unittest
 import builtins
 from datetime import datetime, timezone, timedelta
 
-from d3tl.handlers.bids_and_asks.uniswap.handlers import UniSwapV2BidsAndAsksHandler, UniSwapV3BidsAndAsksHandler
+from d3tl.handlers.bids_and_asks.uniswap.handlers import (
+    UniSwapV2BidsAndAsksHandler, UniSwapV3BidsAndAsksHandler, UniSwapV3BidsAndAsksOptimismHandler
+)
 from d3tl.abstract.fabric import d3Abstract
 from d3tl.bridge.configurator import D3BridgeConfigurator
 from trad3r.root.composite.trader import rootTrad3r
@@ -39,6 +41,53 @@ class TestUniSwapV3BidsAndAsksHandler(unittest.TestCase):
 
     def testInstance(self):
         self.assertIsInstance(self.handler, UniSwapV3BidsAndAsksHandler)
+
+    def testAddress(self):
+        self.assertEqual(self.handler.contract.address, self.address)
+
+    def testProvider(self):
+        self.assertEqual(self.handler.provider, self.provider)
+
+    def test_get_overview(self):
+        end_time = datetime.utcnow()
+        start_time = end_time - timedelta(minutes=5)
+
+        overview = self.handler.get_overview(
+            start=start_time,
+            end=end_time,
+            is_reverse=False
+        )
+        builtins.print('\n', overview)
+
+
+class TestUniSwapV3BidsAndAsksOptimismHandler(unittest.TestCase):
+
+    address = '0x1C3140aB59d6cAf9fa7459C6f83D4B52ba881d36'
+
+    scan_api_url = 'https://api-optimistic.etherscan.io/'
+    scan_api_key = ''
+    gas_symbol = 'ETH'
+    block_limit = 3000
+
+    provider = HTTPProvider(uri='https://rpc.ankr.com/optimism')
+
+    product = D3BridgeConfigurator(
+        abstract=d3Abstract,
+        fabric_name='bids_and_asks',
+        handler_name='uniswapV3-optimism'
+    ).produce_handler()
+    handler = product(
+        address=address,
+        provider=provider,
+        uri=scan_api_url,
+        api_key=scan_api_key,
+        block_limit=block_limit,
+        gas_symbol=gas_symbol,
+        trader=rootTrad3r
+    )
+
+    def testInstance(self):
+        self.assertIsInstance(self.handler, UniSwapV3BidsAndAsksOptimismHandler)
 
     def testAddress(self):
         self.assertEqual(self.handler.contract.address, self.address)
