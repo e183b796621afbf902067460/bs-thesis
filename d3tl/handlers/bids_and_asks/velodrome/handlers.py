@@ -79,6 +79,8 @@ class VelodromeBidsAndAsksHandler(VelodromePairContract, UniSwapV2BidsAndAsksHan
                     'reserve1'] / 10 ** t1_decimals
 
                 receipt = w3.eth.get_transaction_receipt(event_data['transactionHash'].hex())
+                tx = w3.eth.get_transaction(event_data['transactionHash'])
+                tx_index = int(tx['index'], 16)
 
                 transfers = self.contract.events.Swap().processReceipt(receipt, errors=DISCARD)
                 amount0, amount1 = None, None
@@ -107,7 +109,7 @@ class VelodromeBidsAndAsksHandler(VelodromePairContract, UniSwapV2BidsAndAsksHan
                         'effective_gas_price': int(receipt['l1GasPrice'], 16) / 10 ** 18,
                         'gas_symbol': self.gas_symbol,
                         'gas_price': self.trader.get_price(first=self.gas_symbol),
-                        'index_position_in_the_block': receipt['transactionIndex'],
+                        'index_position_in_the_block': tx_index,
                         'tx_hash': event_data['transactionHash'].hex(),
                         'time': datetime.datetime.utcfromtimestamp(ts)
                     }
