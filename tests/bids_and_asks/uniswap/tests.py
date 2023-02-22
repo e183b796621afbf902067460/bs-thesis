@@ -8,6 +8,7 @@ from d3tl.handlers.bids_and_asks.uniswap.handlers import (
 )
 from d3tl.abstract.fabric import d3Abstract
 from d3tl.bridge.configurator import D3BridgeConfigurator
+from d3tl.consts.chains.consts import POLYGON, OPTIMISM
 from trad3r.root.composite.trader import rootTrad3r
 
 from raffaelo.providers.http.provider import HTTPProvider
@@ -36,6 +37,7 @@ class TestUniSwapV3BidsAndAsksHandler(unittest.TestCase):
         api_key=scan_api_key,
         block_limit=block_limit,
         gas_symbol=gas_symbol,
+        chain=POLYGON,
         trader=rootTrad3r
     )
 
@@ -83,6 +85,7 @@ class TestUniSwapV3BidsAndAsksOptimismHandler(unittest.TestCase):
         api_key=scan_api_key,
         block_limit=block_limit,
         gas_symbol=gas_symbol,
+        chain=OPTIMISM,
         trader=rootTrad3r
     )
 
