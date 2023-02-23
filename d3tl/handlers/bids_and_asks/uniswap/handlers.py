@@ -13,7 +13,7 @@ from web3.middleware import geth_poa_middleware
 from web3.logs import DISCARD
 from web3._utils.events import get_event_data
 from web3 import Web3
-from web3.exceptions import MismatchedABI
+from web3.exceptions import MismatchedABI, TransactionNotFound
 
 
 class UniSwapV2BidsAndAsksHandler(UniSwapV2PairContract, iBidsAndAsksHandler):
@@ -80,7 +80,10 @@ class UniSwapV2BidsAndAsksHandler(UniSwapV2PairContract, iBidsAndAsksHandler):
                     break
                 r0, r1 = event_data['args']['reserve0'] / 10 ** t0_decimals, event_data['args']['reserve1'] / 10 ** t1_decimals
 
-                receipt = w3.eth.get_transaction_receipt(event_data['transactionHash'].hex())
+                try:
+                    receipt = w3.eth.get_transaction_receipt(event_data['transactionHash'].hex())
+                except TransactionNotFound:
+                    continue
 
                 transfers = self.contract.events.Swap().processReceipt(receipt, errors=DISCARD)
                 amount0, amount1 = None, None
@@ -239,7 +242,11 @@ class UniSwapV3BidsAndAsksHandler(UniSwapV3PoolContract, iBidsAndAsksHandler):
                     liquidity=liquidity,
                     sqrt=sqrt_p
                 )
-                receipt = w3.eth.get_transaction_receipt(event_data['transactionHash'].hex())
+                try:
+                    receipt = w3.eth.get_transaction_receipt(event_data['transactionHash'].hex())
+                except TransactionNotFound:
+                    continue
+
                 overview.append(
                     {
                         'symbol': pool_symbol,
@@ -349,7 +356,11 @@ class UniSwapV3BidsAndAsksOptimismHandler(UniSwapV3BidsAndAsksHandler):
                     liquidity=liquidity,
                     sqrt=sqrt_p
                 )
-                receipt = w3.eth.get_transaction_receipt(event_data['transactionHash'].hex())
+                try:
+                    receipt = w3.eth.get_transaction_receipt(event_data['transactionHash'].hex())
+                except TransactionNotFound:
+                    continue
+
                 overview.append(
                     {
                         'symbol': pool_symbol,

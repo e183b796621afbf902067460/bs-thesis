@@ -8,7 +8,7 @@ from d3f1nance.quickswap.AlgebraPool import QuickSwapV3AlgebraPoolContract
 from web3.middleware import geth_poa_middleware
 from web3._utils.events import get_event_data
 from web3 import Web3
-from web3.exceptions import MismatchedABI
+from web3.exceptions import MismatchedABI, TransactionNotFound
 
 from d3tl.handlers.bids_and_asks.uniswap.handlers import UniSwapV2BidsAndAsksHandler, UniSwapV3BidsAndAsksHandler
 
@@ -83,7 +83,11 @@ class QuickSwapV3BidsAndAsksHandler(QuickSwapV3AlgebraPoolContract, UniSwapV3Bid
                     break
                 sqrt_p, liquidity = event_data['args']['price'], event_data['args']['liquidity']
 
-                receipt = w3.eth.get_transaction_receipt(event_data['transactionHash'].hex())
+                try:
+                    receipt = w3.eth.get_transaction_receipt(event_data['transactionHash'].hex())
+                except TransactionNotFound:
+                    continue
+
                 for log in receipt['logs']:
                     if log['topics'][0].hex() == '0x598b9f043c813aa6be3426ca60d1c65d17256312890be5118dab55b0775ebe2a':
                         self._FEE = int(log['data'], 16) / 10 ** 5

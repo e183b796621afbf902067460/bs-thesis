@@ -12,7 +12,7 @@ from web3.middleware import geth_poa_middleware
 from web3._utils.events import get_event_data
 from web3.logs import DISCARD
 from web3 import Web3
-from web3.exceptions import MismatchedABI
+from web3.exceptions import MismatchedABI, TransactionNotFound
 
 
 class VelodromeBidsAndAsksHandler(VelodromePairContract, UniSwapV2BidsAndAsksHandler):
@@ -78,8 +78,12 @@ class VelodromeBidsAndAsksHandler(VelodromePairContract, UniSwapV2BidsAndAsksHan
                 r0, r1 = event_data['args']['reserve0'] / 10 ** t0_decimals, event_data['args'][
                     'reserve1'] / 10 ** t1_decimals
 
-                receipt = w3.eth.get_transaction_receipt(event_data['transactionHash'].hex())
-                tx = w3.eth.get_transaction(event_data['transactionHash'])
+                try:
+                    receipt = w3.eth.get_transaction_receipt(event_data['transactionHash'].hex())
+                    tx = w3.eth.get_transaction(event_data['transactionHash'])
+                except TransactionNotFound:
+                    continue
+
                 tx_index = int(tx['index'], 16)
 
                 transfers = self.contract.events.Swap().processReceipt(receipt, errors=DISCARD)

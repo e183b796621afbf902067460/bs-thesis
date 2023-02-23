@@ -8,6 +8,7 @@ import requests
 
 from web3.middleware import geth_poa_middleware
 from web3._utils.events import get_event_data
+from web3.exceptions import TransactionNotFound
 from web3 import Web3
 from web3.exceptions import MismatchedABI
 
@@ -102,7 +103,10 @@ class KyberSwapV2BidsAndAsksHandler(KyberSwapPoolContract, UniSwapV3BidsAndAsksH
                     liquidity=liquidity,
                     sqrt=sqrt_p
                 )
-                receipt = w3.eth.get_transaction_receipt(event_data['transactionHash'].hex())
+                try:
+                    receipt = w3.eth.get_transaction_receipt(event_data['transactionHash'].hex())
+                except TransactionNotFound:
+                    continue
                 overview.append(
                     {
                         'symbol': pool_symbol,
