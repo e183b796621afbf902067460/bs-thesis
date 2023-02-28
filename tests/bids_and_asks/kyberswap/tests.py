@@ -14,7 +14,7 @@ from raffaelo.providers.http.provider import HTTPProvider
 
 class TestKyberSwapV2BidsAndAsksHandler(unittest.TestCase):
 
-    address = '0xCaCba79427a10008804aDD4f642275AE76419d6a'
+    address = '0xa40CAc1B04D7491BDFb42ccAC97dff25e0EFB09e'
 
     scan_api_url = 'https://api.polygonscan.com/'
     scan_api_key = ''

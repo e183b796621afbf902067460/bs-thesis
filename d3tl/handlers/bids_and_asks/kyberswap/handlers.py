@@ -40,6 +40,7 @@ class KyberSwapV2BidsAndAsksHandler(KyberSwapPoolContract, UniSwapV3BidsAndAsksH
         t1 = ERC20TokenContract(address=t1_address, provider=self.provider)
 
         t0_decimals, t1_decimals = t0.decimals(), t1.decimals()
+        t0_decimals, t1_decimals = t0_decimals if not is_reverse else t1_decimals, t1_decimals if not is_reverse else t0_decimals
 
         t0_symbol, t1_symbol = t0.symbol(), t1.symbol()
         pool_symbol = f'{t0_symbol}/{t1_symbol}' if not is_reverse else f'{t1_symbol}/{t0_symbol}'
@@ -70,39 +71,10 @@ class KyberSwapV2BidsAndAsksHandler(KyberSwapPoolContract, UniSwapV3BidsAndAsksH
                     break
                 sqrt_p, liquidity = event_data['args']['sqrtP'], event_data['args']['liquidity']
 
-                bid = 1 / self._get_uni_v3_buy_price(
-                    d0=t0_decimals,
-                    d1=t1_decimals,
-                    liquidity=liquidity,
-                    sqrt=sqrt_p
-                ) if is_reverse else self._get_uni_v3_sell_price(
-                    d0=t0_decimals,
-                    d1=t1_decimals,
-                    liquidity=liquidity,
-                    sqrt=sqrt_p
-                )
-                ask = 1 / self._get_uni_v3_sell_price(
-                    d0=t0_decimals,
-                    d1=t1_decimals,
-                    liquidity=liquidity,
-                    sqrt=sqrt_p
-                ) if is_reverse else self._get_uni_v3_buy_price(
-                    d0=t0_decimals,
-                    d1=t1_decimals,
-                    liquidity=liquidity,
-                    sqrt=sqrt_p
-                )
-                price = 1 / self._get_uni_v3_price(
-                    d0=t0_decimals,
-                    d1=t1_decimals,
-                    liquidity=liquidity,
-                    sqrt=sqrt_p
-                ) if is_reverse else self._get_uni_v3_price(
-                    d0=t0_decimals,
-                    d1=t1_decimals,
-                    liquidity=liquidity,
-                    sqrt=sqrt_p
-                )
+                a0, a1 = event_data['args']['deltaQty0'], event_data['args']['deltaQty1']
+                a0, a1 = a0 if not is_reverse else a1, a1 if not is_reverse else a0
+
+                price = abs((a1 / 10 ** t1_decimals) / (a0 / 10 ** t0_decimals))
                 try:
                     receipt = w3.eth.get_transaction_receipt(event_data['transactionHash'].hex())
                 except TransactionNotFound:
@@ -110,16 +82,19 @@ class KyberSwapV2BidsAndAsksHandler(KyberSwapPoolContract, UniSwapV3BidsAndAsksH
                 overview.append(
                     {
                         'symbol': pool_symbol,
-                        'bid': bid,
-                        'ask': ask,
                         'price': price,
                         'sender': receipt['from'],
-                        'amount0': event_data['args']['deltaQty0'] / 10 ** t0_decimals,
-                        'amount1': event_data['args']['deltaQty1'] / 10 ** t1_decimals,
+                        'recipient': receipt['to'],
+                        'amount0': a0,
+                        'amount1': a1,
+                        'decimals0': t0_decimals,
+                        'decimals1': t1_decimals,
+                        'sqrt_p': sqrt_p,
+                        'liquidity': liquidity,
+                        'fee': self._FEE,
                         'gas_used': receipt['gasUsed'] / 10 ** 18,
                         'effective_gas_price': receipt['effectiveGasPrice'] / 10 ** 18,
                         'gas_symbol': self.gas_symbol,
-                        'gas_price': self.trader.get_price(first=self.gas_symbol),
                         'index_position_in_the_block': receipt['transactionIndex'],
                         'tx_hash': event_data['transactionHash'].hex(),
                         'time': datetime.datetime.utcfromtimestamp(ts)

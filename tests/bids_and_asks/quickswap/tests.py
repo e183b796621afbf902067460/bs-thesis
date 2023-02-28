@@ -50,7 +50,7 @@ class TestQuickSwapV2BidsAndAsksHandler(unittest.TestCase):
 
     def test_get_overview(self):
         end_time = datetime.utcnow()
-        start_time = end_time - timedelta(minutes=10)
+        start_time = end_time - timedelta(minutes=5)
 
         overview = self.handler.get_overview(
             start=start_time,
@@ -98,7 +98,7 @@ class TestQuickSwapV3BidsAndAsksHandler(unittest.TestCase):
 
     def test_get_overview(self):
         end_time = datetime.utcnow()
-        start_time = end_time - timedelta(minutes=10)
+        start_time = end_time - timedelta(minutes=5)
 
         overview = self.handler.get_overview(
             start=start_time,

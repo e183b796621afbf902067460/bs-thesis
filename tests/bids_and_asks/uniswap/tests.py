@@ -52,12 +52,12 @@ class TestUniSwapV3BidsAndAsksHandler(unittest.TestCase):
 
     def test_get_overview(self):
         end_time = datetime.utcnow()
-        start_time = end_time - timedelta(minutes=5)
+        start_time = end_time - timedelta(minutes=1)
 
         overview = self.handler.get_overview(
             start=start_time,
             end=end_time,
-            is_reverse=False
+            is_reverse=True
         )
         builtins.print('\n', overview)
 

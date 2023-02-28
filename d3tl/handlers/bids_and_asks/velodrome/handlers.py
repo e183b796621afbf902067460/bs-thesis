@@ -48,6 +48,7 @@ class VelodromeBidsAndAsksHandler(VelodromePairContract, UniSwapV2BidsAndAsksHan
         t1 = ERC20TokenContract(address=t1_address, provider=self.provider)
 
         t0_decimals, t1_decimals = t0.decimals(), t1.decimals()
+        t0_decimals, t1_decimals = t0_decimals if not is_reverse else t1_decimals, t1_decimals if not is_reverse else t0_decimals
 
         t0_symbol, t1_symbol = t0.symbol(), t1.symbol()
         pool_symbol = f'{t0_symbol}/{t1_symbol}' if not is_reverse else f'{t1_symbol}/{t0_symbol}'
@@ -75,8 +76,7 @@ class VelodromeBidsAndAsksHandler(VelodromePairContract, UniSwapV2BidsAndAsksHan
                 ts = w3.eth.getBlock(event_data['blockNumber']).timestamp
                 if ts > end.timestamp():
                     break
-                r0, r1 = event_data['args']['reserve0'] / 10 ** t0_decimals, event_data['args'][
-                    'reserve1'] / 10 ** t1_decimals
+                r0, r1 = event_data['args']['reserve0'], event_data['args']['reserve1']
 
                 try:
                     receipt = w3.eth.get_transaction_receipt(event_data['transactionHash'].hex())
@@ -90,29 +90,31 @@ class VelodromeBidsAndAsksHandler(VelodromePairContract, UniSwapV2BidsAndAsksHan
                 amount0, amount1 = None, None
                 for transfer in transfers:
                     if transfer['address'] == self.contract.address:
-                        amount0 = transfer['args']['amount0In'] / 10 ** t0_decimals if transfer['args'][
-                            'amount0In'] else transfer['args']['amount0Out'] / 10 ** t0_decimals * -1
-                        amount1 = transfer['args']['amount1In'] / 10 ** t1_decimals if transfer['args'][
-                            'amount1In'] else transfer['args']['amount1Out'] / 10 ** t1_decimals * -1
+                        amount0 = transfer['args']['amount0In'] if transfer['args'][
+                            'amount0In'] else transfer['args']['amount0Out'] * -1
+                        amount1 = transfer['args']['amount1In'] if transfer['args'][
+                            'amount1In'] else transfer['args']['amount1Out'] * -1
                         break
                 if not amount0 or not amount1:
                     continue
-                price = r0 / r1 if is_reverse else r1 / r0
-                bid = r0 / r1 * (1 - self._FEE) if is_reverse else r1 / r0 * (1 - self._FEE)
-                ask = r0 / r1 * (1 + self._FEE) if is_reverse else r1 / r0 * (1 + self._FEE)
+                amount0, amount1 = amount0 if not is_reverse else amount1, amount1 if not is_reverse else amount0
+                price = abs((amount1 / 10 ** t1_decimals) / (amount0 / 10 ** t0_decimals))
                 overview.append(
                     {
                         'symbol': pool_symbol,
-                        'bid': bid,
-                        'ask': ask,
                         'price': price,
                         'sender': receipt['from'],
+                        'recipient': receipt['to'],
+                        'reserve0': r0 if not is_reverse else r1,
+                        'reserve1': r1 if not is_reverse else r0,
                         'amount0': amount0,
                         'amount1': amount1,
+                        'decimals0': t0_decimals,
+                        'decimals1': t1_decimals,
+                        'fee': self._FEE,
                         'gas_used': int(receipt['l1GasUsed'], 16),
                         'effective_gas_price': int(receipt['l1GasPrice'], 16) / 10 ** 18,
                         'gas_symbol': self.gas_symbol,
-                        'gas_price': self.trader.get_price(first=self.gas_symbol),
                         'index_position_in_the_block': tx_index,
                         'tx_hash': event_data['transactionHash'].hex(),
                         'time': datetime.datetime.utcfromtimestamp(ts)
