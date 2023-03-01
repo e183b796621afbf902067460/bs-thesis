@@ -74,17 +74,18 @@ class KyberSwapV2BidsAndAsksHandler(KyberSwapPoolContract, UniSwapV3BidsAndAsksH
                 a0, a1 = event_data['args']['deltaQty0'], event_data['args']['deltaQty1']
                 a0, a1 = a0 if not is_reverse else a1, a1 if not is_reverse else a0
 
-                price = abs((a1 / 10 ** t1_decimals) / (a0 / 10 ** t0_decimals))
                 try:
+                    price = abs((a1 / 10 ** t1_decimals) / (a0 / 10 ** t0_decimals))
                     receipt = w3.eth.get_transaction_receipt(event_data['transactionHash'].hex())
-                except TransactionNotFound:
+                    recipient = receipt['to']
+                except (TransactionNotFound, ZeroDivisionError, KeyError):
                     continue
                 overview.append(
                     {
                         'symbol': pool_symbol,
                         'price': price,
                         'sender': receipt['from'],
-                        'recipient': receipt['to'],
+                        'recipient': recipient,
                         'amount0': a0,
                         'amount1': a1,
                         'decimals0': t0_decimals,

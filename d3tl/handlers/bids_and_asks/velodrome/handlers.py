@@ -98,13 +98,17 @@ class VelodromeBidsAndAsksHandler(VelodromePairContract, UniSwapV2BidsAndAsksHan
                 if not amount0 or not amount1:
                     continue
                 amount0, amount1 = amount0 if not is_reverse else amount1, amount1 if not is_reverse else amount0
-                price = abs((amount1 / 10 ** t1_decimals) / (amount0 / 10 ** t0_decimals))
+                try:
+                    price = abs((amount1 / 10 ** t1_decimals) / (amount0 / 10 ** t0_decimals))
+                    recipient = receipt['to']
+                except (ZeroDivisionError, KeyError):
+                    continue
                 overview.append(
                     {
                         'symbol': pool_symbol,
                         'price': price,
                         'sender': receipt['from'],
-                        'recipient': receipt['to'],
+                        'recipient': recipient,
                         'reserve0': r0 if not is_reverse else r1,
                         'reserve1': r1 if not is_reverse else r0,
                         'amount0': amount0,

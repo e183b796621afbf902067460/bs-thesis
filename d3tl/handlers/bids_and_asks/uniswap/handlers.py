@@ -96,13 +96,17 @@ class UniSwapV2BidsAndAsksHandler(UniSwapV2PairContract, iBidsAndAsksHandler):
                 if not amount0 or not amount1:
                     continue
                 amount0, amount1 = amount0 if not is_reverse else amount1, amount1 if not is_reverse else amount0
-                price = abs((amount1 / 10 ** t1_decimals) / (amount0 / 10 ** t0_decimals))
+                try:
+                    price = abs((amount1 / 10 ** t1_decimals) / (amount0 / 10 ** t0_decimals))
+                    recipient = receipt['to']
+                except (ZeroDivisionError, KeyError):
+                    continue
                 overview.append(
                     {
                         'symbol': pool_symbol,
                         'price': price,
                         'sender': receipt['from'],
-                        'recipient': receipt['to'],
+                        'recipient': recipient,
                         'reserve0': r0 if not is_reverse else r1,
                         'reserve1': r1 if not is_reverse else r0,
                         'amount0': amount0,
@@ -192,10 +196,11 @@ class UniSwapV3BidsAndAsksHandler(UniSwapV3PoolContract, iBidsAndAsksHandler):
                 a0 = event_data['args']['amount0'] if not is_reverse else event_data['args']['amount1']
                 a1 = event_data['args']['amount1'] if not is_reverse else event_data['args']['amount0']
 
-                price = abs((a1 / 10 ** t1_decimals) / (a0 / 10 ** t0_decimals))
                 try:
+                    price = abs((a1 / 10 ** t1_decimals) / (a0 / 10 ** t0_decimals))
                     receipt = w3.eth.get_transaction_receipt(event_data['transactionHash'].hex())
-                except TransactionNotFound:
+                    recipient = receipt['to']
+                except (TransactionNotFound, ZeroDivisionError, KeyError):
                     continue
 
                 overview.append(
@@ -203,7 +208,7 @@ class UniSwapV3BidsAndAsksHandler(UniSwapV3PoolContract, iBidsAndAsksHandler):
                         'symbol': pool_symbol,
                         'price': price,
                         'sender': receipt['from'],
-                        'recipient': receipt['to'],
+                        'recipient': recipient,
                         'amount0': a0,
                         'amount1': a1,
                         'decimals0': t0_decimals,
@@ -281,11 +286,12 @@ class UniSwapV3BidsAndAsksOptimismHandler(UniSwapV3BidsAndAsksHandler):
                 a0 = event_data['args']['amount0'] if not is_reverse else event_data['args']['amount1']
                 a1 = event_data['args']['amount1'] if not is_reverse else event_data['args']['amount0']
 
-                price = abs((a1 / 10 ** t1_decimals) / (a0 / 10 ** t0_decimals))
                 try:
+                    price = abs((a1 / 10 ** t1_decimals) / (a0 / 10 ** t0_decimals))
                     receipt = w3.eth.get_transaction_receipt(event_data['transactionHash'].hex())
                     tx = w3.eth.get_transaction(event_data['transactionHash'])
-                except TransactionNotFound:
+                    recipient = receipt['to']
+                except (TransactionNotFound, ZeroDivisionError, KeyError):
                     continue
                 tx_index = int(tx['index'], 16)
 
@@ -294,7 +300,7 @@ class UniSwapV3BidsAndAsksOptimismHandler(UniSwapV3BidsAndAsksHandler):
                         'symbol': pool_symbol,
                         'price': price,
                         'sender': receipt['from'],
-                        'recipient': receipt['to'],
+                        'recipient': recipient,
                         'amount0': a0,
                         'amount1': a1,
                         'decimals0': t0_decimals,
