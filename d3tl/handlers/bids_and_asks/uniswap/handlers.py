@@ -245,7 +245,7 @@ class UniSwapV3BidsAndAsksOptimismHandler(UniSwapV3BidsAndAsksHandler):
             geth_poa_middleware,
             layer=0
         )
-        self._FEE = self.fee() / 10 ** 5
+        self._FEE = self.fee() / 10 ** 6
 
         t0_address, t1_address = self.token0(), self.token1()
         t0 = ERC20TokenContract(address=t0_address, provider=self.provider)

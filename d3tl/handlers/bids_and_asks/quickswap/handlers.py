@@ -92,7 +92,7 @@ class QuickSwapV3BidsAndAsksHandler(QuickSwapV3AlgebraPoolContract, UniSwapV3Bid
 
                 for log in receipt['logs']:
                     if log['topics'][0].hex() == '0x598b9f043c813aa6be3426ca60d1c65d17256312890be5118dab55b0775ebe2a':
-                        self._FEE = int(log['data'], 16) / 10 ** 5
+                        self._FEE = int(log['data'], 16) / 10 ** 6
                         break
                 else:
                     continue

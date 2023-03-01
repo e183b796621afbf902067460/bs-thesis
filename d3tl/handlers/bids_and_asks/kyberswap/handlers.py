@@ -33,7 +33,7 @@ class KyberSwapV2BidsAndAsksHandler(KyberSwapPoolContract, UniSwapV3BidsAndAsksH
             geth_poa_middleware,
             layer=0
         )
-        self._FEE = self.swapFeeUnits() / 10 ** 4
+        self._FEE = self.swapFeeUnits() / 10 ** 5
 
         t0_address, t1_address = self.token0(), self.token1()
         t0 = ERC20TokenContract(address=t0_address, provider=self.provider)
