@@ -9,6 +9,7 @@ from d3tl.handlers.bids_and_asks.uniswap.handlers import (
 from d3tl.handlers.bids_and_asks.quickswap.handlers import QuickSwapV2BidsAndAsksHandler, QuickSwapV3BidsAndAsksHandler
 from d3tl.handlers.bids_and_asks.kyberswap.handlers import KyberSwapV2BidsAndAsksHandler
 from d3tl.handlers.bids_and_asks.velodrome.handlers import VelodromeBidsAndAsksHandler
+from d3tl.handlers.bids_and_asks.equalizer.handlers import EqualizerBidsAndAsksHandler
 
 
 class BidsAndAsksFabric(iFabric):
@@ -33,3 +34,4 @@ bidsAndAsksFabric.add_handler(protocol='quickswapV2', handler=QuickSwapV2BidsAnd
 bidsAndAsksFabric.add_handler(protocol='quickswapV3', handler=QuickSwapV3BidsAndAsksHandler)
 bidsAndAsksFabric.add_handler(protocol='kyberswapV2', handler=KyberSwapV2BidsAndAsksHandler)
 bidsAndAsksFabric.add_handler(protocol='velodrome', handler=VelodromeBidsAndAsksHandler)
+bidsAndAsksFabric.add_handler(protocol='equalizer', handler=EqualizerBidsAndAsksHandler)
