@@ -116,7 +116,7 @@ class QuickSwapV3BidsAndAsksHandler(QuickSwapV3AlgebraPoolContract, UniSwapV3Bid
                         'sqrt_p': sqrt_p,
                         'liquidity': liquidity,
                         'fee': self._FEE,
-                        'gas_used': receipt['gasUsed'] / 10 ** 18,
+                        'gas_used': receipt['gasUsed'],
                         'gas_symbol': self.gas_symbol,
                         'effective_gas_price': receipt['effectiveGasPrice'] / 10 ** 18,
                         'index_position_in_the_block': receipt['transactionIndex'],

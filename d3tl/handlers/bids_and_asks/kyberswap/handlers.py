@@ -93,7 +93,7 @@ class KyberSwapV2BidsAndAsksHandler(KyberSwapPoolContract, UniSwapV3BidsAndAsksH
                         'sqrt_p': sqrt_p,
                         'liquidity': liquidity,
                         'fee': self._FEE,
-                        'gas_used': receipt['gasUsed'] / 10 ** 18,
+                        'gas_used': receipt['gasUsed'],
                         'effective_gas_price': receipt['effectiveGasPrice'] / 10 ** 18,
                         'gas_symbol': self.gas_symbol,
                         'index_position_in_the_block': receipt['transactionIndex'],
