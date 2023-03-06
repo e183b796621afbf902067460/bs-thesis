@@ -91,9 +91,12 @@ class QuickSwapV3BidsAndAsksHandler(QuickSwapV3AlgebraPoolContract, UniSwapV3Bid
                     continue
 
                 for log in receipt['logs']:
-                    if log['topics'][0].hex() == '0x598b9f043c813aa6be3426ca60d1c65d17256312890be5118dab55b0775ebe2a':
-                        self._FEE = int(log['data'], 16) / 10 ** 6
-                        break
+                    try:
+                        if log['topics'][0].hex() == '0x598b9f043c813aa6be3426ca60d1c65d17256312890be5118dab55b0775ebe2a':
+                            self._FEE = int(log['data'], 16) / 10 ** 6
+                            break
+                    except IndexError:
+                        continue
                 else:
                     continue
                 a0, a1 = a0 if not is_reverse else a1, a1 if not is_reverse else a0
