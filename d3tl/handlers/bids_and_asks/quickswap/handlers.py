@@ -19,7 +19,7 @@ class QuickSwapV2BidsAndAsksHandler(UniSwapV2BidsAndAsksHandler):
 
 
 class QuickSwapV3BidsAndAsksHandler(QuickSwapV3AlgebraPoolContract, UniSwapV3BidsAndAsksHandler):
-    _FEE = None
+    _FEE = 0.0005
 
     def __init__(
             self,
