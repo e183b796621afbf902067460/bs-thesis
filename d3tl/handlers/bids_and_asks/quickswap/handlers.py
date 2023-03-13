@@ -97,8 +97,6 @@ class QuickSwapV3BidsAndAsksHandler(QuickSwapV3AlgebraPoolContract, UniSwapV3Bid
                             break
                     except IndexError:
                         continue
-                else:
-                    continue
                 a0, a1 = a0 if not is_reverse else a1, a1 if not is_reverse else a0
                 try:
                     price = abs((a1 / 10 ** t1_decimals) / (a0 / 10 ** t0_decimals))
