@@ -4,18 +4,18 @@ version: '3'
 x-common:
   &common
   build:
-    context: ./skyeng
+    context: ./airflow
     dockerfile: Dockerfile
   user: "${AIRFLOW_UID}:0"
   env_file:
-    - ./skyeng/.env
+    - ./airflow/.env
   volumes:
-    - ./skyeng/dags:/opt/airflow/dags
-    - ./skyeng/logs:/opt/airflow/logs
-    - ./skyeng/plugins:/opt/airflow/plugins
-    - ./skyeng/resources:/opt/airflow/resources
+    - ./airflow/dags:/opt/airflow/dags
+    - ./airflow/logs:/opt/airflow/logs
+    - ./airflow/plugins:/opt/airflow/plugins
+    - ./airflow/joints:/opt/airflow/joints
   environment:
-    PYTHONPATH: "resources:${PYTHONPATH}"
+    PYTHONPATH: "joints:${PYTHONPATH}"
 
 x-depends-on:
   &depends-on
@@ -44,7 +44,7 @@ services:
     volumes:
       - ./postgres:/var/lib/postgresql/data
     networks:
-      - sky_network
+      - bs_network
 
   scheduler:
     <<: *common
@@ -55,7 +55,7 @@ services:
     ports:
       - "8793:8793"
     networks:
-      - sky_network
+      - bs_network
 
   webserver:
     <<: *common
@@ -66,12 +66,12 @@ services:
     ports:
       - "8080:8080"
     healthcheck:
-      test: [ "CMD", "curl", "--fail", "http://localhost:8080/health" ]
+      test: [ "CMD", "curl", "--fail", "http://0.0.0.0:8080/health" ]
       interval: 30s
       timeout: 30s
       retries: 5
     networks:
-      - sky_network
+      - bs_network
 
   airflow-init:
     <<: *common
@@ -84,66 +84,7 @@ services:
         chown -R "${AIRFLOW_UID}:0" /sources/{logs,dags,plugins}
         exec /entrypoint airflow version
     networks:
-      - sky_network
-
-  postgres-datasource:
-    image: postgres:13
-    environment:
-      POSTGRES_HOST: 0.0.0.0
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
-    healthcheck:
-      test: [ "CMD", "pg_isready", "-U", "postgres" ]
-      interval: 5s
-      retries: 5
-    restart: always
-    ports:
-      - '5434:5432'
-    volumes:
-      - ./postgres-datasource:/var/lib/postgresql/data
-      - ./skyeng/dumps/datasource_dump.sql:/docker-entrypoint-initdb.d/datasource_dump.sql
-    networks:
-      - sky_network
-
-  postgres-datawarehouse:
-    image: postgres:13
-    environment:
-      POSTGRES_HOST: 0.0.0.0
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
-    healthcheck:
-      test: [ "CMD", "pg_isready", "-U", "postgres" ]
-      interval: 5s
-      retries: 5
-    restart: always
-    ports:
-      - '5435:5432'
-    volumes:
-      - ./postgres-datawarehouse:/var/lib/postgresql/data
-      - ./skyeng/dumps/datawarehouse_dump.sql:/docker-entrypoint-initdb.d/datawarehouse_dump.sql
-    networks:
-      - sky_network
-
-  clickhouse-datamart:
-    image: clickhouse/clickhouse-server:head-alpine
-    environment:
-      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
-      CLICKHOUSE_HOST: 0.0.0.0
-      CLICKHOUSE_DB: clickhouse
-      CLICKHOUSE_USER: clickhouse
-      CLICKHOUSE_PASSWORD: clickhouse
-    volumes:
-      - ./clickhouse-datamart:/var/lib/clickhouse/
-      - ./skyeng/dumps/datamart_dump.sql:/docker-entrypoint-initdb.d/datamart_dump.sql
-    ports:
-      - '8123:8123'
-    healthcheck:
-      test: wget --no-verbose --tries=1 --spider http://0.0.0.0:8123/ping || exit 1
-    restart: always
-    networks:
-      - sky_network
+      - bs_network
 
 networks:
-  sky_network:
+  bs_network:
