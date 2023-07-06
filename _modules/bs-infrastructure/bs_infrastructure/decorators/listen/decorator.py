@@ -6,14 +6,15 @@ def listen(func: Callable):
 
     def parse(event: list):
         return {
-            'dt': event[0],
-            'price': event[1],
-            'side': event[2],
-            't0_symbol': event[3],
-            't1_symbol': event[4],
-            't0_amount': event[5],
-            't1_amount': event[6],
-            'tx_hash': event[7]
+            'address': event[0],
+            'dt': event[1],
+            'price': event[2],
+            'side': event[3],
+            't0_symbol': event[4],
+            't1_symbol': event[5],
+            't0_amount': event[6],
+            't1_amount': event[7],
+            'tx_hash': event[8]
         }
 
     @wraps(func)
