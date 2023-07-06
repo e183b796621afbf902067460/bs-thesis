@@ -12,7 +12,7 @@ setup(
     version="0.0.1",
     author="e183b796621afbf902067460",
     author_email="606d18446a06fe9738fd@gmail.com",
-    url="https://github.com/e183b796621afbf902067460/bs-infrastructure/tree/master/_modules/bs-infrastructure",
+    url="https://github.com/e183b796621afbf902067460/bs-thesis/tree/master/_modules/bs-infrastructure",
     packages=find_packages(
         exclude=['bs_infrastructure_tests*']
     ),
