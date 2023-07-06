@@ -13,7 +13,13 @@ from app.resources.provider.resource import spawn_provider_resource, ProviderRes
 
 class EventHandlerService(UniSwapV3PoolContract):
 
-    def pull(self, w3: Web3, is_reverse: bool) -> Iterable:
+    def pull(
+            self,
+            w3: Web3,
+            blockchain: str,
+            protocol: str,
+            is_reverse: bool
+    ) -> Iterable:
 
         @listen
         def handle() -> Iterable:
@@ -27,7 +33,7 @@ class EventHandlerService(UniSwapV3PoolContract):
                 ts = w3.eth.get_block(swap.blockNumber).timestamp
                 dt = str(datetime.datetime.fromtimestamp(int(ts)))
 
-                yield self._address, dt, price, side, t0_symbol, t1_symbol, t0_amount, t1_amount, tx_hash
+                yield self._address, dt, price, side, t0_symbol, t1_symbol, t0_amount, t1_amount, tx_hash, protocol, blockchain
 
         t0, t1 = self.token0() if not is_reverse else self.token1(), self.token1() if not is_reverse else self.token0()
         t0_decimals, t1_decimals = t0.decimals(), t1.decimals()

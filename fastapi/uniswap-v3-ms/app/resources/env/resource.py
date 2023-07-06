@@ -5,12 +5,16 @@ from decouple import config
 class EnvResource(BaseSettings):
 
     @property
+    def protocol(self) -> str:
+        return config("PROTOCOL", cast=str, default='uniswap-v3')
+
+    @property
     def api_v1(self) -> str:
         return config('API_V1', cast=str, default='/api/v1')
 
     @property
     def root(self) -> str:
-        return config('ROOT', cast=str, default='/uniswap-v3')
+        return config('ROOT', cast=str, default=f'/{self.protocol}')
 
     @property
     def bootstrap_servers(self) -> list:
