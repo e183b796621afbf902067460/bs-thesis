@@ -4,7 +4,11 @@ import datetime
 from web3 import Web3
 
 from raffaelo_uniswap_v3.pool.contract import UniSwapV3PoolContract
+
 from bs_infrastructure.decorators.listen.decorator import listen
+from bs_infrastructure.decorators.by_default.decorator import by_default
+
+from app.resources.provider.resource import spawn_provider_resource, ProviderResource
 
 
 class EventHandlerService(UniSwapV3PoolContract):
@@ -32,3 +36,8 @@ class EventHandlerService(UniSwapV3PoolContract):
         block_filter = self.contract.events.Swap.create_filter(fromBlock='latest')
 
         for event in handle(): yield event
+
+
+@by_default(provider=spawn_provider_resource)
+def spawn_handler_resource(address: str, provider: ProviderResource) -> EventHandlerService:
+    return EventHandlerService(address=address, provider=provider.polygon)
