@@ -8,15 +8,13 @@ def listen(func: Callable):
         return {
             'address': event[0],
             'dt': event[1],
-            'price': event[2],
-            'side': event[3],
-            't0_symbol': event[4],
-            't1_symbol': event[5],
-            't0_amount': event[6],
-            't1_amount': event[7],
-            'tx_hash': event[8],
-            'protocol': event[9],
-            'blockchain': event[10]
+            't0_symbol': event[2],
+            't1_symbol': event[3],
+            't0_amount': event[4],
+            't1_amount': event[5],
+            'tx_hash': event[6],
+            'protocol': event[7],
+            'blockchain': event[8]
         }
 
     @wraps(func)
