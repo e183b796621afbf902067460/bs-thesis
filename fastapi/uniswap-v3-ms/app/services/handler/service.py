@@ -21,7 +21,20 @@ class EventHandlerService(UniSwapV3PoolContract):
             is_reverse: bool
     ) -> Iterable:
 
-        @listen
+        def parse(tx: list):
+            return {
+                'address': tx[0],
+                'dt': tx[1],
+                't0_symbol': tx[2],
+                't1_symbol': tx[3],
+                't0_amount': tx[4],
+                't1_amount': tx[5],
+                'tx_hash': tx[6],
+                'protocol': tx[7],
+                'blockchain': tx[8]
+            }
+
+        @listen(parse_func=parse)
         def handle() -> Iterable:
             for swap in block_filter.get_new_entries():
                 tx_hash = swap.transactionHash.hex()
