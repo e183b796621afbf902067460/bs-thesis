@@ -2,25 +2,6 @@ version: "3"
 
 services:
 
-  uniswap-v3-ms:
-    command: python3 app/__main__.py
-    restart: always
-    ports:
-      - '8000:8000'
-    build:
-      context: ./fastapi/uniswap-v3-ms
-      dockerfile: Dockerfile
-    environment:
-      ETHEREUM_WSS_PROVIDER:
-      POLYGON_WSS_PROVIDER:
-
-      BOOTSTRAP_SERVERS: kafka:9092
-      PYTHONPATH: ${PYTHONPATH}:/code/app
-    depends_on:
-      - kafka
-    networks:
-      - bs-thesis
-
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     ports:
@@ -29,20 +10,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2182
       ZOOKEEPER_TICK_TIME: 2000
     networks:
-      - bs-thesis
-
-  kafka-ui:
-    image: provectuslabs/kafka-ui:latest
-    ports:
-      - "8080:8080"
-    restart: always
-    environment:
-      KAFKA_CLUSTERS_0_NAME: local
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
-    depends_on:
-      - kafka
-    networks:
-      - bs-thesis
+      - web3
 
   kafka:
     image: wurstmeister/kafka:latest
@@ -65,7 +33,60 @@ services:
     depends_on:
       - zookeeper
     networks:
-      - bs-thesis
+      - web3
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - "8080:8080"
+    restart: always
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+    depends_on:
+      - kafka
+    networks:
+      - web3
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:head-alpine
+    environment:
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
+      CLICKHOUSE_HOST: 0.0.0.0
+      CLICKHOUSE_DB: clickhouse
+      CLICKHOUSE_USER: clickhouse
+      CLICKHOUSE_PASSWORD: clickhouse
+    volumes:
+      - ./_modules/clickhouse/docker-entrypoint-initdb.sql:/docker-entrypoint-initdb.d/docker-entrypoint-initdb.sql
+    ports:
+      - '8123:8123'
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://0.0.0.0:8123/ping || exit 1
+    restart: always
+    depends_on:
+      - kafka
+    networks:
+      - web3
+
+  uniswap-v3-ms:
+    command: python3 app/__main__.py
+    restart: always
+    ports:
+      - '8000:8000'
+    build:
+      context: ./fastapi/uniswap-v3-ms
+      dockerfile: Dockerfile
+    environment:
+      ETHEREUM_WSS_PROVIDER:
+      POLYGON_WSS_PROVIDER:
+
+      BOOTSTRAP_SERVERS: kafka:9092
+      PYTHONPATH: ${PYTHONPATH}:/code/app
+    depends_on:
+      - kafka
+      - clickhouse
+    networks:
+      - web3
 
 networks:
-  bs-thesis:
+  web3:
