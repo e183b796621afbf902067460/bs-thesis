@@ -10,7 +10,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2182
       ZOOKEEPER_TICK_TIME: 2000
     networks:
-      - web3
+      - real-time-tx-processing
 
   kafka:
     image: wurstmeister/kafka:latest
@@ -18,7 +18,7 @@ services:
     ports:
       - "9092:9092"
     environment:
-      KAFKA_CREATE_TOPICS: bs.thesis:1:1
+      KAFKA_CREATE_TOPICS: real.time.tx.processing:1:1
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_LISTENERS: PLAINTEXT://:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
@@ -33,7 +33,7 @@ services:
     depends_on:
       - zookeeper
     networks:
-      - web3
+      - real-time-tx-processing
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
@@ -46,7 +46,7 @@ services:
     depends_on:
       - kafka
     networks:
-      - web3
+      - real-time-tx-processing
 
   clickhouse:
     image: clickhouse/clickhouse-server:head-alpine
@@ -66,7 +66,7 @@ services:
     depends_on:
       - kafka
     networks:
-      - web3
+      - real-time-tx-processing
 
   uniswap-v3-ms:
     command: python3 app/__main__.py
@@ -86,7 +86,7 @@ services:
       - kafka
       - clickhouse
     networks:
-      - web3
+      - real-time-tx-processing
 
 networks:
-  web3:
+  real-time-tx-processing:

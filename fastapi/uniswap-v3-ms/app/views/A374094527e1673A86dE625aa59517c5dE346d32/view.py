@@ -27,4 +27,4 @@ async def broadcast():
 
     producer = kafka.producer
     for event in service.pull(w3=w3, protocol=env.protocol, blockchain='polygon', is_reverse=False):
-        producer.send(topic='bs.thesis', value=event)
+        producer.send(topic='real.time.tx.processing', value=event)
