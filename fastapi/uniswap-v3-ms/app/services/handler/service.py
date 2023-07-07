@@ -23,15 +23,15 @@ class EventHandlerService(UniSwapV3PoolContract):
 
         def parse(tx: list):
             return {
-                'address': tx[0],
-                'dt': tx[1],
-                't0_symbol': tx[2],
-                't1_symbol': tx[3],
-                't0_amount': tx[4],
-                't1_amount': tx[5],
-                'tx_hash': tx[6],
-                'protocol': tx[7],
-                'blockchain': tx[8]
+                'q_real_time_tx_processing_address': tx[0],
+                'q_real_time_tx_processing_timestamp': tx[1],
+                'q_real_time_tx_processing_t0_symbol': tx[2],
+                'q_real_time_tx_processing_t1_symbol': tx[3],
+                'q_real_time_tx_processing_t0_amount': tx[4],
+                'q_real_time_tx_processing_t1_amount': tx[5],
+                'q_real_time_tx_processing_tx_hash': tx[6],
+                'q_real_time_tx_processing_protocol': tx[7],
+                'q_real_time_tx_processing_blockchain': tx[8]
             }
 
         @listen(parse_func=parse)
