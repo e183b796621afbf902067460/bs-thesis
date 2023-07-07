@@ -1,7 +1,5 @@
 CREATE TABLE IF NOT EXISTS clickhouse.q_real_time_tx_processing
 (
-    q_real_time_tx_processing_uuid              UUID DEFAULT generateUUIDv4(),
-
     q_real_time_tx_processing_address           String,
 
     q_real_time_tx_processing_t0_symbol         String,
@@ -14,8 +12,7 @@ CREATE TABLE IF NOT EXISTS clickhouse.q_real_time_tx_processing
     q_real_time_tx_processing_protocol          String,
     q_real_time_tx_processing_blockchain        String,
 
-    q_real_time_tx_processing_timestamp         DateTime,
-    q_real_time_tx_processing_load_ts           DateTime DEFAULT now()
+    q_real_time_tx_processing_timestamp         DateTime
 )
 ENGINE = Kafka
 SETTINGS
