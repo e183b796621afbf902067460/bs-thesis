@@ -5,8 +5,8 @@ from web3 import Web3
 
 from raffaelo_uniswap_v3.pool.contract import UniSwapV3PoolContract
 
-from bs_infrastructure.decorators.listen.decorator import listen
-from bs_infrastructure.decorators.by_default.decorator import by_default
+from python.decorators.listen.decorator import listen
+from python.decorators.by_default.decorator import by_default
 
 from app.resources.provider.resource import spawn_provider_resource, ProviderResource
 

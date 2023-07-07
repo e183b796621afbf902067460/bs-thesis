@@ -1,7 +1,7 @@
 from raffaelo.providers.wss.provider import WSSProvider
 
 from app.resources.env.resource import spawn_env_resource, EnvResource
-from bs_infrastructure.decorators.by_default.decorator import by_default
+from python.decorators.by_default.decorator import by_default
 
 
 class ProviderResource(object):
