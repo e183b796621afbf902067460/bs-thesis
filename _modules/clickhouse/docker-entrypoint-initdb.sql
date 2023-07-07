@@ -40,7 +40,7 @@ ENGINE = Kafka
 SETTINGS
     kafka_broker_list = 'kafka:9092',
     kafka_topic_list = 'real.time.tx.processing',
-    kafka_group_name = 'q_real_time_tx_processing_result',
+    kafka_group_name = 'q_real_time_tx_processing_ch',
     kafka_format = 'JSONEachRow';
 
 -- Materialized View to insert any consumed data by Kafka Engine to 'dm_real_time_tx_processing' table
