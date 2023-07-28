@@ -31,7 +31,9 @@ class EventHandlerService(UniSwapV3PoolContract):
                 'q_real_time_tx_processing_t1_amount': tx[5],
                 'q_real_time_tx_processing_tx_hash': tx[6],
                 'q_real_time_tx_processing_protocol': tx[7],
-                'q_real_time_tx_processing_blockchain': tx[8]
+                'q_real_time_tx_processing_blockchain': tx[8],
+                'q_real_time_tx_processing_swap_side': tx[9],
+                'q_real_time_tx_processing_swap_maker': tx[10]
             }
 
         @listen(parse_func=parse)
@@ -41,10 +43,13 @@ class EventHandlerService(UniSwapV3PoolContract):
 
                 t0_amount, t1_amount = swap.args.amount0 / 10 ** t0_decimals, swap.args.amount1 / 10 ** t1_decimals
 
+                swap_side = 'SELL' if t0_amount > 0 else 'BUY'
+                swap_maker = swap.args.recipient
+
                 ts = w3.eth.get_block(swap.blockNumber).timestamp
                 dt = str(datetime.datetime.fromtimestamp(int(ts)))
 
-                yield self._address, dt, t0_symbol, t1_symbol, t0_amount, t1_amount, tx_hash, protocol, blockchain
+                yield self._address, dt, t0_symbol, t1_symbol, t0_amount, t1_amount, tx_hash, protocol, blockchain, swap_side, swap_maker
 
         t0, t1 = self.token0() if not is_reverse else self.token1(), self.token1() if not is_reverse else self.token0()
         t0_decimals, t1_decimals = t0.decimals(), t1.decimals()
