@@ -92,7 +92,7 @@ services:
 
   superset:
     build:
-      context: ./_modules/superset/app
+      context: ./_modules/superset
       dockerfile: Dockerfile
     restart: always
     depends_on:
