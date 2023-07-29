@@ -68,6 +68,45 @@ services:
     networks:
       - real-time-tx-processing
 
+  postgres:
+    image: postgres
+    restart: always
+    depends_on:
+      - clickhouse
+    environment:
+      POSTGRES_DB: superset
+      POSTGRES_PASSWORD: superset
+      POSTGRES_USER: superset
+    volumes:
+      - ./_modules/postgres:/var/lib/postgresql/data
+    networks:
+      - real-time-tx-processing
+
+  redis:
+    image: redis
+    restart: always
+    depends_on:
+      - clickhouse
+    networks:
+      - real-time-tx-processing
+
+  superset:
+    build:
+      context: ./_modules/superset/app
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      MAPBOX_API_KEY:
+    ports:
+      - "8088:8088"
+    volumes:
+      - ./_modules/superset/app/superset_config.py:/etc/superset/superset_config.py
+    networks:
+      - real-time-tx-processing
+
   uniswap-v3-ms:
     command: python3 app/__main__.py
     restart: always
