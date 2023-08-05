@@ -116,6 +116,7 @@ services:
     environment:
       ETHEREUM_WSS_PROVIDER:
       POLYGON_WSS_PROVIDER:
+      ARBITRUM_WSS_PROVIDER:
 
       BOOTSTRAP_SERVERS: kafka:9092
       PYTHONPATH: ${PYTHONPATH}:/code/app
@@ -134,6 +135,7 @@ services:
     environment:
       ETHEREUM_WSS_PROVIDER:
       POLYGON_WSS_PROVIDER:
+      ARBITRUM_WSS_PROVIDER:
 
       BOOTSTRAP_SERVERS: kafka:9092
       PYTHONPATH: ${PYTHONPATH}:/code/app
