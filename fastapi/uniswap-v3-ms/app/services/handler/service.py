@@ -44,10 +44,11 @@ class EventHandlerService(UniSwapV3PoolContract):
 
                 t0_amount = swap.args.amount0 / 10 ** t0_decimals if not is_reverse else swap.args.amount0 / 10 ** t1_decimals
                 t1_amount = swap.args.amount1 / 10 ** t1_decimals if not is_reverse else swap.args.amount1 / 10 ** t0_decimals
+                t0_amount, t1_amount = t0_amount if not is_reverse else t1_amount, t1_amount if not is_reverse else t0_amount
 
                 swap_side = 'SELL' if t0_amount > 0 else 'BUY'
                 swap_maker = swap.args.recipient
-                swap_quote_price = t1_amount / t0_amount
+                swap_quote_price = abs(t1_amount / t0_amount)
 
                 ts = w3.eth.get_block(swap.blockNumber).timestamp
                 dt = str(datetime.datetime.fromtimestamp(int(ts)))

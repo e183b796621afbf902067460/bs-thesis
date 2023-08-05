@@ -11,19 +11,16 @@ class KafkaResource(object):
     def __init__(self, env: EnvResource) -> None:
         self._env = env
 
-    @property
     def producer(self) -> KafkaProducer:
         return KafkaProducer(
             bootstrap_servers=self._env.bootstrap_servers,
             value_serializer=lambda x: dumps(x).encode('utf-8'),
-            retries=5,
-            retry_backoff_ms=3000
+            max_in_flight_requests_per_connection=5 * 3,
+            retries=3 * 3,
+            retry_backoff_ms=5000
         )
-
-    class Config:
-        case_sensitive = True
 
 
 @by_default(env=spawn_env_resource)
-def spawn_kafka_resource(env: EnvResource) -> KafkaResource:
-    return KafkaResource(env=env)
+def spawn_kafka_resource(env: EnvResource) -> KafkaProducer:
+    return KafkaResource(env=env).producer()
