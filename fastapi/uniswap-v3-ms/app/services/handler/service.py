@@ -42,7 +42,8 @@ class EventHandlerService(UniSwapV3PoolContract):
             for swap in block_filter.get_new_entries():
                 tx_hash = swap.transactionHash.hex()
 
-                t0_amount, t1_amount = swap.args.amount0 / 10 ** t0_decimals, swap.args.amount1 / 10 ** t1_decimals
+                t0_amount = swap.args.amount0 / 10 ** t0_decimals if not is_reverse else swap.args.amount0 / 10 ** t1_decimals
+                t1_amount = swap.args.amount1 / 10 ** t1_decimals if not is_reverse else swap.args.amount1 / 10 ** t0_decimals
 
                 swap_side = 'SELL' if t0_amount > 0 else 'BUY'
                 swap_maker = swap.args.recipient
