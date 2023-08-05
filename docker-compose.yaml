@@ -110,10 +110,26 @@ services:
   uniswap-v3-ms:
     command: python3 app/__main__.py
     restart: always
-    ports:
-      - '8000:8000'
     build:
       context: ./fastapi/uniswap-v3-ms
+      dockerfile: Dockerfile
+    environment:
+      ETHEREUM_WSS_PROVIDER:
+      POLYGON_WSS_PROVIDER:
+
+      BOOTSTRAP_SERVERS: kafka:9092
+      PYTHONPATH: ${PYTHONPATH}:/code/app
+    depends_on:
+      - kafka
+      - clickhouse
+    networks:
+      - real-time-tx-processing
+
+  quickswap-v3-ms:
+    command: python3 app/__main__.py
+    restart: always
+    build:
+      context: ./fastapi/quickswap-v3-ms
       dockerfile: Dockerfile
     environment:
       ETHEREUM_WSS_PROVIDER:
