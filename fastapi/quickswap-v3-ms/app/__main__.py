@@ -1,12 +1,12 @@
 from fastapi import FastAPI
 
-from app.views.xAE81FAc689A1b4b1e06e7ef4a2ab4CD8aC0A087D.view import router as xAE81FAc689A1b4b1e06e7ef4a2ab4CD8aC0A087D
+from app.views.x55CAaBB0d2b704FD0eF8192A7E35D8837e678207.view import router as x55CAaBB0d2b704FD0eF8192A7E35D8837e678207
 
 
 app = FastAPI()
 
 
-app.include_router(router=xAE81FAc689A1b4b1e06e7ef4a2ab4CD8aC0A087D)
+app.include_router(router=x55CAaBB0d2b704FD0eF8192A7E35D8837e678207)
 
 
 if __name__ == '__main__':

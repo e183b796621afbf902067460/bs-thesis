@@ -4,7 +4,7 @@ from web3.types import ChecksumAddress
 from web3 import Web3
 from web3.middleware import geth_poa_middleware
 
-from app.services.handler.service import spawn_handler_resource
+from app.services.handler.service import spawn_polygon_handler
 from app.resources.kafka.resource import spawn_kafka_resource
 from app.resources.env.resource import spawn_env_resource
 
@@ -12,7 +12,7 @@ from app.resources.env.resource import spawn_env_resource
 router = APIRouter()
 
 
-address = ChecksumAddress('0x88f3C15523544835fF6c738DDb30995339AD57d6')
+address = ChecksumAddress('0x0a6c4588b7D8Bd22cF120283B1FFf953420c45F3')
 
 
 @router.on_event(event_type='startup')
