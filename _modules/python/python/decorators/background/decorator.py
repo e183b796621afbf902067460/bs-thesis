@@ -1,11 +1,11 @@
 from functools import wraps
+import asyncio
 
 
-def yieldmethod(func):
+def background(f):
 
-    @wraps(func)
-    def wrapper(self, *args, **kwargs):
-        for elem in func(self, *args, **kwargs):
-            if elem:
-                return elem
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        return asyncio.get_event_loop().run_in_executor(None, f, *args, **kwargs)
+
     return wrapper
