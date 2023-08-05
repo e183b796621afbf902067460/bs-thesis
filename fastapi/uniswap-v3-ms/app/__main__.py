@@ -1,16 +1,16 @@
 from fastapi import FastAPI
 
-from app.views.xA374094527e1673A86dE625aa59517c5dE346d32.view import router as xA374094527e1673A86dE625aa59517c5dE346d32
-from app.views.x88f3C15523544835fF6c738DDb30995339AD57d6.view import router as x88f3C15523544835fF6c738DDb30995339AD57d6
-from app.views.x0a6c4588b7D8Bd22cF120283B1FFf953420c45F3.view import router as x0a6c4588b7D8Bd22cF120283B1FFf953420c45F3
+from app.views.x45dDa9cb7c25131DF268515131f647d726f50608.view import router as x45dDa9cb7c25131DF268515131f647d726f50608
+from app.views.x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640.view import router as x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640
+from app.views.xC31E54c7a869B9FcBEcc14363CF510d1c41fa443.view import router as xC31E54c7a869B9FcBEcc14363CF510d1c41fa443
 
 
 app = FastAPI()
 
 
-app.include_router(router=xA374094527e1673A86dE625aa59517c5dE346d32)
-app.include_router(router=x88f3C15523544835fF6c738DDb30995339AD57d6)
-app.include_router(router=x0a6c4588b7D8Bd22cF120283B1FFf953420c45F3)
+app.include_router(router=x45dDa9cb7c25131DF268515131f647d726f50608)
+app.include_router(router=x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640)
+app.include_router(router=xC31E54c7a869B9FcBEcc14363CF510d1c41fa443)
 
 
 if __name__ == '__main__':

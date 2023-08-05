@@ -17,6 +17,10 @@ class ProviderResource(object):
     def polygon(self) -> WSSProvider:
         return WSSProvider(uri=self._env.polygon_wss_provider)
 
+    @property
+    def arbitrum(self) -> WSSProvider:
+        return WSSProvider(uri=self._env.arbitrum_wss_provider)
+
     class Config:
         case_sensitive = True
 

@@ -64,5 +64,15 @@ class EventHandlerService(UniSwapV3PoolContract):
 
 
 @by_default(provider=spawn_provider_resource)
-def spawn_handler_resource(address: str, provider: ProviderResource) -> EventHandlerService:
+def spawn_polygon_handler(address: str, provider: ProviderResource) -> EventHandlerService:
     return EventHandlerService(address=address, provider=provider.polygon)
+
+
+@by_default(provider=spawn_provider_resource)
+def spawn_ethereum_handler(address: str, provider: ProviderResource) -> EventHandlerService:
+    return EventHandlerService(address=address, provider=provider.ethereum)
+
+
+@by_default(provider=spawn_provider_resource)
+def spawn_arbitrum_handler(address: str, provider: ProviderResource) -> EventHandlerService:
+    return EventHandlerService(address=address, provider=provider.arbitrum)

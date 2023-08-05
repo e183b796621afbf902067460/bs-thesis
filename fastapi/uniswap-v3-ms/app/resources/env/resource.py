@@ -20,6 +20,10 @@ class EnvResource(BaseSettings):
     def polygon_wss_provider(self) -> str:
         return config('POLYGON_WSS_PROVIDER', cast=str)
 
+    @property
+    def arbitrum_wss_provider(self) -> str:
+        return config('ARBITRUM_WSS_PROVIDER', cast=str)
+
     class Config:
         case_sensitive = True
 
