@@ -13,10 +13,7 @@ from time import sleep
 router = APIRouter()
 
 
-address = Web3.to_checksum_address('0xC31E54c7a869B9FcBEcc14363CF510d1c41fa443')
-
-
-def broadcast():
+def broadcast(address: str = Web3.to_checksum_address('0xC31E54c7a869B9FcBEcc14363CF510d1c41fa443')):
     infinity = iter(int, 1)
     for _ in infinity:
         try:
