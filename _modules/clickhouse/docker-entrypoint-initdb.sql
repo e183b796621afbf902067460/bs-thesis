@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS clickhouse.dm_real_time_tx_processing
     dm_real_time_tx_processing_t0_amount         Float64,
     dm_real_time_tx_processing_t1_amount         Float64,
     dm_real_time_tx_processing_swap_side         String,
+    dm_real_time_tx_processing_swap_quote_price  Float64,
 
     dm_real_time_tx_processing_tx_hash           String,
 
@@ -32,6 +33,7 @@ CREATE TABLE IF NOT EXISTS clickhouse.q_real_time_tx_processing
     q_real_time_tx_processing_t0_amount         Float64,
     q_real_time_tx_processing_t1_amount         Float64,
     q_real_time_tx_processing_swap_side         String,
+    q_real_time_tx_processing_swap_quote_price  Float64,
 
     q_real_time_tx_processing_tx_hash           String,
 
@@ -57,6 +59,7 @@ SELECT
     q_real_time_tx_processing_t0_amount AS dm_real_time_tx_processing_t0_amount,
     q_real_time_tx_processing_t1_amount AS dm_real_time_tx_processing_t1_amount,
     q_real_time_tx_processing_swap_side AS dm_real_time_tx_processing_swap_side,
+    q_real_time_tx_processing_swap_quote_price AS dm_real_time_tx_processing_swap_quote_price,
     q_real_time_tx_processing_tx_hash AS dm_real_time_tx_processing_tx_hash,
     q_real_time_tx_processing_protocol AS dm_real_time_tx_processing_protocol,
     q_real_time_tx_processing_blockchain AS dm_real_time_tx_processing_blockchain,
