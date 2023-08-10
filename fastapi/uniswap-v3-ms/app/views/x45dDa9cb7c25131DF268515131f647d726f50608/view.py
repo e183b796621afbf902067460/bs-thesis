@@ -10,26 +10,31 @@ from app.resources.env.resource import spawn_env_resource
 
 from time import sleep
 
+from python.w3api.router import W3APIRouter
 
-router = APIRouter()
+
+class W3API(W3APIRouter):
+
+    @staticmethod
+    def broadcast(address: str = Web3.to_checksum_address('0x45dDa9cb7c25131DF268515131f647d726f50608')):
+        infinity = iter(int, 1)
+        for _ in infinity:
+            try:
+                service, kafka, env = spawn_polygon_handler(address=address), spawn_kafka_resource(), spawn_env_resource()
+            except NoBrokersAvailable:
+                sleep(5)
+                continue
+            else:
+                break
+
+        w3 = Web3(service.node)
+        w3.middleware_onion.inject(
+            geth_poa_middleware,
+            layer=0
+        )
+
+        for event in service.pull(w3=w3, protocol=env.protocol, blockchain='polygonscan.com', is_reverse=True):
+            kafka.send(topic='real.time.tx.processing', value=event)
 
 
-def broadcast(address: str = Web3.to_checksum_address('0x45dDa9cb7c25131DF268515131f647d726f50608')):
-    infinity = iter(int, 1)
-    for _ in infinity:
-        try:
-            service, kafka, env = spawn_polygon_handler(address=address), spawn_kafka_resource(), spawn_env_resource()
-        except NoBrokersAvailable:
-            sleep(5)
-            continue
-        else:
-            break
-
-    w3 = Web3(service.node)
-    w3.middleware_onion.inject(
-        geth_poa_middleware,
-        layer=0
-    )
-
-    for event in service.pull(w3=w3, protocol=env.protocol, blockchain='polygonscan.com', is_reverse=True):
-        kafka.send(topic='real.time.tx.processing', value=event)
+router = W3API()

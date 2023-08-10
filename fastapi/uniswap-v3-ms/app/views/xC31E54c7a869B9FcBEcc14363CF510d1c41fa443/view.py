@@ -10,25 +10,32 @@ from app.resources.env.resource import spawn_env_resource
 
 from time import sleep
 
-router = APIRouter()
+from python.w3api.router import W3APIRouter
 
 
-def broadcast(address: str = Web3.to_checksum_address('0xC31E54c7a869B9FcBEcc14363CF510d1c41fa443')):
-    infinity = iter(int, 1)
-    for _ in infinity:
-        try:
-            service, kafka, env = spawn_arbitrum_handler(address=address), spawn_kafka_resource(), spawn_env_resource()
-        except NoBrokersAvailable:
-            sleep(5)
-            continue
-        else:
-            break
+class W3API(W3APIRouter):
 
-    w3 = Web3(service.node)
-    w3.middleware_onion.inject(
-        geth_poa_middleware,
-        layer=0
-    )
+    @staticmethod
+    def broadcast(address: str = Web3.to_checksum_address('0xC31E54c7a869B9FcBEcc14363CF510d1c41fa443')):
+        infinity = iter(int, 1)
+        for _ in infinity:
+            try:
+                service, kafka, env = spawn_arbitrum_handler(
+                    address=address), spawn_kafka_resource(), spawn_env_resource()
+            except NoBrokersAvailable:
+                sleep(5)
+                continue
+            else:
+                break
 
-    for event in service.pull(w3=w3, protocol=env.protocol, blockchain='arbiscan.io', is_reverse=False):
-        kafka.send(topic='real.time.tx.processing', value=event)
+        w3 = Web3(service.node)
+        w3.middleware_onion.inject(
+            geth_poa_middleware,
+            layer=0
+        )
+
+        for event in service.pull(w3=w3, protocol=env.protocol, blockchain='arbiscan.io', is_reverse=False):
+            kafka.send(topic='real.time.tx.processing', value=event)
+
+
+router = W3API()
