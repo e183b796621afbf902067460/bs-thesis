@@ -20,8 +20,7 @@ class W3API(W3APIRouter):
         infinity = iter(int, 1)
         for _ in infinity:
             try:
-                service, kafka, env = spawn_arbitrum_handler(
-                    address=address), spawn_kafka_resource(), spawn_env_resource()
+                service, kafka, env = spawn_arbitrum_handler(address=address), spawn_kafka_resource(), spawn_env_resource()
             except NoBrokersAvailable:
                 sleep(5)
                 continue
