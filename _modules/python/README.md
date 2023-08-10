@@ -4,5 +4,5 @@ It's a core framework for different python modules using in Bachelor Thesis. The
 
 # Installation
 ```
-pip3 install -e "git+https://github.com/e183b796621afbf902067460/bs-thesis.git#egg=python&subdirectory=_modules/python/"
+pip3 install -e "git+https://github.com/e183b796621afbf902067460/baccalaureate-diploma.git#egg=python&subdirectory=_modules/python/"
 ```

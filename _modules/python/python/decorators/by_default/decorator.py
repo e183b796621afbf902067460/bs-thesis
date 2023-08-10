@@ -9,28 +9,6 @@ def by_default(*args, **kwargs):
     :parameter: func (Callable) — The function to decorate.
 
     :return: Optional[Any] — The result of decorated function.
-
-    Example usage:
-    >>> @by_default(a=1, b=2)
-    ... def my_function(a, b):
-    ...     return a + b
-    ...
-    >>> assert my_function() == 3  # All kwargs already specified
-    >>> @by_default(b=2)
-    ... def my_function(a, b):
-    ...     return a + b
-    ...
-    >>> assert my_function(a=1) == 3  # Few kwargs already specified
-
-    :raise: TypeError: my_function() got multiple values for keyword argument 'a'
-    >>> @by_default(a=1, b=2)
-    ... def my_function(a, b):
-    ...     return a + b
-    ...
-    >>> try:
-    ...     my_function(a=3)
-    ... except TypeError as exc:
-    ...     assert isinstance(exc, TypeError)
     """
 
     def wrapper(func: Callable) -> Optional[Any]:
