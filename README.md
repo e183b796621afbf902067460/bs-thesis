@@ -3,7 +3,7 @@ Depends on: [raffaelo](https://github.com/e183b796621afbf902067460/raffaelo).
 
 ---
 
-About project.
+The Art of Decision-Making: Building Real-Time Data Processing Pipeline With Kafka, ClickHouse and Apache Superset.
 
 # Configuration
 
