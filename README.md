@@ -7,6 +7,8 @@ The Art of Decision-Making: Building Real-Time Data Processing Pipeline With Kaf
 
 Based on public blockchain-transactions data from liquidity pools we will build a real-time analytical dashboard using Apache Kafka, ClickHouse and Apache Superset to get know the best price of Ethereum and deploy it with Docker.
 
+[![asciicast](https://camo.githubusercontent.com/09c47a17f473254ee9b27f2b8c5640c73f1a2a08f2a7e83618cb0ceabfef9958/68747470733a2f2f61736369696e656d612e6f72672f612f3333353438302e737667)](https://raw.githubusercontent.com/e183b796621afbf902067460/baccalaureate-diploma/master/_modules/gif/1692557219498273.gif)
+
 # Configuration
 
 - Clone current repository:
