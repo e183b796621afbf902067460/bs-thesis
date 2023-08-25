@@ -3,8 +3,6 @@ Depends on: [raffaelo](https://github.com/e183b796621afbf902067460/raffaelo).
 
 ---
 
-The Art of Decision-Making: Building Real-Time Data Processing Pipeline With Kafka, ClickHouse and Apache Superset. 
-
 Based on public blockchain-transactions data from liquidity pools we will build a real-time analytical dashboard using Apache Kafka, ClickHouse and Apache Superset to get know the best price of WETH/USDC and deploy it with Docker.
 
 <p align="center">
