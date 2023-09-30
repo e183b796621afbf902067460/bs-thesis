@@ -24,7 +24,6 @@ async def to_clickhouse(producer: AIOKafkaProducer, events: RealTimeTxProcessing
 
 async def broadcast(
         blockchain: str,
-        is_reverse: bool,
         service_spawn_class: iService,
         kafka_spawn_method: Callable = spawn_kafka_resource,
         env_spawn_method: Callable = spawn_env_resource
@@ -34,4 +33,4 @@ async def broadcast(
     await kafka_producer.start()
 
     for _ in infinity:
-        await asyncio.gather(*(to_clickhouse(producer=kafka_producer, events=RealTimeTxProcessingBatch.from_iterable(events)) for events in service.pull(blockchain=blockchain, is_reverse=is_reverse, protocol=env.protocol)))
+        await asyncio.gather(*(to_clickhouse(producer=kafka_producer, events=RealTimeTxProcessingBatch.from_iterable(events)) for events in service.pull(blockchain=blockchain, protocol=env.protocol)))

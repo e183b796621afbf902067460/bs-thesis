@@ -3,4 +3,4 @@ from app.resources.provider.resource import spawn_provider_resource, ProviderRes
 
 
 class ArbitrumWethUsdcWSSRepo(WSSProviderRepo):
-    address, provider = '0xC31E54c7a869B9FcBEcc14363CF510d1c41fa443', spawn_provider_resource().arbitrum
+    address, provider, is_reverse = '0xC31E54c7a869B9FcBEcc14363CF510d1c41fa443', spawn_provider_resource().arbitrum, False

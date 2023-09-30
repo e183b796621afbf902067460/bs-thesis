@@ -10,6 +10,6 @@ logging.basicConfig(level=logging.INFO)
 @fastkafka_app.run_in_background()
 async def arbitrum_weth_usdc_wss_broadcast():
     try:
-        await broadcast(blockchain='arbiscan.io', is_reverse=False, service_spawn_class=ArbitrumWethUsdcWSSService)
+        await broadcast(blockchain='arbiscan.io', service_spawn_class=ArbitrumWethUsdcWSSService)
     except Exception as exc:
         logging.error(exc)

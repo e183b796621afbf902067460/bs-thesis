@@ -55,12 +55,12 @@ class iRepo(ABC):
 
 
 class WSSProviderRepo(iRepo):
-    address, provider = None, None
+    address, provider, is_reverse = None, None, None
 
     def __init__(self) -> None:
         self._contract: UniSwapV3PoolContract = UniSwapV3PoolContract(address=self.address, provider=self.provider)
 
-        self._token0, self._token1 = self._contract.token0(), self._contract.token1()
+        self._token0, self._token1 = self._contract.token0() if not self.is_reverse else self._contract.token1(), self._contract.token1() if not self.is_reverse else self._contract.token0()
         self._token0_symbol, self._token1_symbol = self._token0.symbol(), self._token1.symbol()
         self._token0_decimals, self._token1_decimals = self._token0.decimals(), self._token1.decimals()
 

@@ -3,4 +3,4 @@ from app.resources.provider.resource import spawn_provider_resource, ProviderRes
 
 
 class EthereumWethUsdcWSSRepo(WSSProviderRepo):
-    address, provider = '0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640', spawn_provider_resource().ethereum
+    address, provider, is_reverse = '0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640', spawn_provider_resource().ethereum, True
