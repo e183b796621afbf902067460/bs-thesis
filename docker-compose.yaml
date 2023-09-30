@@ -1,4 +1,4 @@
-version: "3"
+version: "3.2"
 
 services:
 
@@ -44,7 +44,8 @@ services:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
     depends_on:
-      - kafka
+      kafka:
+        condition: service_healthy
     networks:
       - real-time-tx-processing
 
@@ -117,9 +118,12 @@ services:
       ARBITRUM_WSS_PROVIDER:
 
       BOOTSTRAP_SERVERS: kafka:9092
+      KAFKA_BROKER_URL: kafka
+      KAFKA_BROKER_PORT: 9092
+
       PYTHONPATH: ${PYTHONPATH}:/code/app
     depends_on:
-      - kafka
+      - kafka-ui
       - clickhouse
     networks:
       - real-time-tx-processing
@@ -136,9 +140,12 @@ services:
       ARBITRUM_WSS_PROVIDER:
 
       BOOTSTRAP_SERVERS: kafka:9092
+      KAFKA_BROKER_URL: kafka
+      KAFKA_BROKER_PORT: 9092
+
       PYTHONPATH: ${PYTHONPATH}:/code/app
     depends_on:
-      - kafka
+      - kafka-ui
       - clickhouse
     networks:
       - real-time-tx-processing
