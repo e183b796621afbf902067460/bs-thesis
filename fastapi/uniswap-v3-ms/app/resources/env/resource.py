@@ -13,6 +13,15 @@ class EnvResource(BaseSettings):
         return [config('BOOTSTRAP_SERVERS', cast=str)]
 
     @property
+    def kafka_brokers(self) -> dict:
+        return {
+            config('KAFKA_BROKER_URL', cast=str): {
+                "url": config('KAFKA_BROKER_URL', cast=str),
+                "port": config('KAFKA_BROKER_PORT', cast=int)
+            }
+        }
+
+    @property
     def ethereum_wss_provider(self) -> str:
         return config('ETHEREUM_WSS_PROVIDER', cast=str)
 

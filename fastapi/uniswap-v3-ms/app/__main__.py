@@ -1,33 +1,20 @@
-from typing import Callable, List
-
 from fastapi import FastAPI
 
-from python.decorators.background.decorator import background
-from python.w3api.router import W3APIRouter
+import logging
+from decouple import config
 
-from app.views.x45dDa9cb7c25131DF268515131f647d726f50608.view import router as x45dDa9cb7c25131DF268515131f647d726f50608
-from app.views.x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640.view import router as x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640
-from app.views.xC31E54c7a869B9FcBEcc14363CF510d1c41fa443.view import router as xC31E54c7a869B9FcBEcc14363CF510d1c41fa443
+from app.views.abstract import fastkafka_app
 
-
-routers = list()
-routers.append(x45dDa9cb7c25131DF268515131f647d726f50608)
-routers.append(x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640)
-routers.append(xC31E54c7a869B9FcBEcc14363CF510d1c41fa443)
+from app.views.xC31E54c7a869B9FcBEcc14363CF510d1c41fa443.view import arbitrum_weth_usdc_wss_broadcast
 
 
-app = FastAPI()
+logging.basicConfig(level=logging.INFO)
 
 
-@background
-def include(router: W3APIRouter) -> None: (app.include_router(router), router.broadcast())
-
-
-@app.on_event('startup')
-async def startup(routers: List[W3APIRouter] = routers) -> None: [include(router) for router in routers]
+fastapi_app = FastAPI(lifespan=fastkafka_app.fastapi_lifespan(kafka_broker_name=config('KAFKA_BROKER_URL', cast=str)))
 
 
 if __name__ == '__main__':
     import uvicorn
 
-    uvicorn.run(app='__main__:app', host='0.0.0.0')
+    uvicorn.run(app='__main__:fastapi_app', host='0.0.0.0')

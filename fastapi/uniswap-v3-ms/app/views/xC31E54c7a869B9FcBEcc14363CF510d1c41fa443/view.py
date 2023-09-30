@@ -1,40 +1,15 @@
-from fastapi import APIRouter
-from kafka.errors import NoBrokersAvailable
+import logging
 
-from web3 import Web3
-from web3.middleware import geth_poa_middleware
-
-from app.services.handler.service import spawn_arbitrum_handler
-from app.resources.kafka.resource import spawn_kafka_resource
-from app.resources.env.resource import spawn_env_resource
-
-from time import sleep
-
-from python.w3api.router import W3APIRouter
+from app.views.abstract import broadcast, fastkafka_app
+from app.services.xC31E54c7a869B9FcBEcc14363CF510d1c41fa443.service import ArbitrumWethUsdcWSSService
 
 
-class W3API(W3APIRouter):
-
-    @staticmethod
-    def broadcast(address: str = Web3.to_checksum_address('0xC31E54c7a869B9FcBEcc14363CF510d1c41fa443')):
-        infinity = iter(int, 1)
-        for _ in infinity:
-            try:
-                service, kafka, env = spawn_arbitrum_handler(address=address), spawn_kafka_resource(), spawn_env_resource()
-            except NoBrokersAvailable:
-                sleep(5)
-                continue
-            else:
-                break
-
-        w3 = Web3(service.node)
-        w3.middleware_onion.inject(
-            geth_poa_middleware,
-            layer=0
-        )
-
-        for event in service.pull(w3=w3, protocol=env.protocol, blockchain='arbiscan.io', is_reverse=False):
-            kafka.send(topic='real.time.tx.processing', value=event)
+logging.basicConfig(level=logging.INFO)
 
 
-router = W3API()
+@fastkafka_app.run_in_background()
+async def arbitrum_weth_usdc_wss_broadcast():
+    try:
+        await broadcast(blockchain='arbiscan.io', is_reverse=False, service_spawn_class=ArbitrumWethUsdcWSSService)
+    except Exception as exc:
+        logging.error(exc)
