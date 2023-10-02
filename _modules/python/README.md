@@ -1,4 +1,4 @@
-# bs-infrastructure
+# python
 
 It's a core framework for different python modules using in Bachelor Thesis. The purpose of the framework is to implement the logic of the certain classes or functions.
 
