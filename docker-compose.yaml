@@ -65,7 +65,8 @@ services:
       test: wget --no-verbose --tries=1 --spider http://0.0.0.0:8123/ping || exit 1
     restart: always
     depends_on:
-      - kafka
+      kafka:
+        condition: service_healthy
     networks:
       - real-time-tx-processing
 
