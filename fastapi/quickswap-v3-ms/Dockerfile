@@ -10,4 +10,4 @@ COPY ./app /code/app
 
 RUN pip3 install --no-cache-dir --upgrade -r /code/requirements.txt
 RUN pip3 install -e "git+https://github.com/e183b796621afbf902067460/raffaelo.git#egg=raffaelo_quickswap_v3&subdirectory=_modules/raffaelo-quickswap-v3/"
-RUN pip3 install -e "git+https://github.com/e183b796621afbf902067460/baccalaureate-diploma.git#egg=python&subdirectory=.modules/python/"
+RUN pip3 install -e "git+https://github.com/e183b796621afbf902067460/baccalaureate-diploma.git#egg=python&subdirectory=_modules/python/"

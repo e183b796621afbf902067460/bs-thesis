@@ -58,7 +58,7 @@ services:
       CLICKHOUSE_USER: clickhouse
       CLICKHOUSE_PASSWORD: clickhouse
     volumes:
-      - ./.modules/clickhouse/docker-entrypoint-initdb.sql:/docker-entrypoint-initdb.d/docker-entrypoint-initdb.sql
+      - ./_modules/clickhouse/docker-entrypoint-initdb.sql:/docker-entrypoint-initdb.d/docker-entrypoint-initdb.sql
     ports:
       - '8123:8123'
     healthcheck:
@@ -80,7 +80,7 @@ services:
       POSTGRES_PASSWORD: superset
       POSTGRES_USER: superset
     volumes:
-      - ./.modules/postgres/docker-entrypoint-initdb.sql:/docker-entrypoint-initdb.d/docker-entrypoint-initdb.sql
+      - ./_modules/postgres/docker-entrypoint-initdb.sql:/docker-entrypoint-initdb.d/docker-entrypoint-initdb.sql
     networks:
       - real-time-tx-processing
 
@@ -94,7 +94,7 @@ services:
 
   superset:
     build:
-      context: .modules/superset
+      context: _modules/superset
       dockerfile: Dockerfile
     restart: always
     depends_on:
@@ -103,7 +103,7 @@ services:
     ports:
       - "8088:8088"
     volumes:
-      - ./.modules/superset/app/superset_config.py:/etc/superset/superset_config.py
+      - ./_modules/superset/app/superset_config.py:/etc/superset/superset_config.py
     networks:
       - real-time-tx-processing
 
