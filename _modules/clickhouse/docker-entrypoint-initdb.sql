@@ -49,7 +49,7 @@ SETTINGS
     kafka_format = 'JSONEachRow';
 
 -- Materialized View to insert any consumed data by Kafka Engine to 'dm_real_time_tx_processing' table
-CREATE MATERIALIZED VIEW clickhouse.mv_real_time_tx_processing TO clickhouse.dm_real_time_tx_processing AS
+CREATE MATERIALIZED VIEW IF NOT EXISTS clickhouse.mv_real_time_tx_processing TO clickhouse.dm_real_time_tx_processing AS
 SELECT
     q_real_time_tx_processing_address AS dm_real_time_tx_processing_address,
     q_real_time_tx_processing_swap_maker AS dm_real_time_tx_processing_swap_maker,
